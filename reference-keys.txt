@@ -1,3 +1,4 @@
+tab:unnamed-chunk-2
 visão-geral
 introdução
 como-os-organismos-vivos-persistem-e-agem-adaptativamente
@@ -8,3 +9,4 @@ parte-2-inferência-ativa-na-prática
 resumo
 o-caminho-de-baixo-para-a-inferência-ativa
 introdução-1
+percepção-como-inferência
