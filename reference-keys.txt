@@ -1,4 +1,3 @@
-tab:unnamed-chunk-2
 visão-geral
 introdução
 como-os-organismos-vivos-persistem-e-agem-adaptativamente

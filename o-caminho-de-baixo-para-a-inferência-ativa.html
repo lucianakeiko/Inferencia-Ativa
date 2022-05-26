@@ -23,7 +23,7 @@
 <meta name="author" content="Thomas Parr, Giovanni Pezzulo, and Karl J. Friston" />
 
 
-<meta name="date" content="2022-05-25" />
+<meta name="date" content="2022-05-26" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -126,9 +126,6 @@
 <p>A segunda é a probabilidade <span class="math inline">\(P( y | x)\)</span>, que denota o conhecimento do organismo de como as observações são geradas a partir de estados. A regra de Bayes nos diz como combinar esses dois elementos, essencialmente atualizando uma probabilidade anterior <span class="math inline">\(P(x)\)</span> em uma probabilidade posterior de estados ocultos após receber observações <span class="math inline">\(P(x | y)\)</span>. Para os leitores que precisam de uma breve atualização sobre a teoria básica da probabilidade, o quadro 2.1 fornece um resumo.</p>
 <p>e agora?</p>
 <table>
-<colgroup>
-<col width="100%" />
-</colgroup>
 <thead>
 <tr class="header">
 <th>Caixa 2.1 As regras de soma e produto de probabilidade</th>
@@ -136,10 +133,15 @@
 </thead>
 <tbody>
 <tr class="odd">
-<td>O raciocínio probabilístico é sustentado por duas regras principais: as regras de soma e produto de probabilidade, que são as seguintes (respectivamente): <span class="math display">\[\sum_{\color{Red}x} P(\color{Red}x)=1\]</span> <span class="math display">\[P(\color{Red}x)P(\color{Orange}y|\color{Red}x)=P(\color{Red}x,\color{Orange}y)\]</span> A regra da soma diz que a probabilidade de todos os eventos possíveis (<span class="math inline">\(\color{Red}x\)</span>) deve somar (ou integrar) a um. A regra do produto diz que a probabilidade conjunta de duas variáveis aleatórias (<span class="math inline">\(\color{Red}x\)</span> e y$) pode ser decomposta no produto da probabilidade de uma variável (P(x)) e a probabilidade condicional da segunda variável dada a primeira (P( y)</td>
+<td>…</td>
 </tr>
 </tbody>
 </table>
+<p>O raciocínio probabilístico é sustentado por duas regras principais: as regras de soma e produto de probabilidade, que são as seguintes (respectivamente):
+<span class="math display">\[\sum_{\color{Red}x} P(\color{Red}x)=1\]</span>
+<span class="math display">\[P(\color{Red}x)P(\color{Orange}y|\color{Red}x)=P(\color{Red}x,\color{Orange}y)\]</span></p>
+<p>A regra da soma diz que a probabilidade de todos os eventos possíveis <span class="math inline">\((x)\)</span> deve somar (ou integrar) a um. A regra do produto diz que a probabilidade conjunta de duas variáveis aleatórias (<span class="math inline">\(x\)</span> e <span class="math inline">\(y\)</span>) pode ser decomposta no produto da probabilidade de uma variável (<span class="math inline">\(P(x)\)</span>) e a probabilidade condicional da segunda variável dada a primeira (<span class="math inline">\(P(y|x)\)</span>). Uma probabilidade condicional é a probabilidade de uma variável (aqui, <span class="math inline">\(y\)</span>) se soubermos o valor que a outra variável (aqui, <span class="math inline">\(x\)</span>) assume. Podemos desenvolver dois resultados importantes a partir dessas regras simples. A primeira é a operação de marginalização. A segunda é a regra de Bayes. A marginalização nos permite obter uma distribuição de apenas uma das duas variáveis de uma distribuição conjunta:|</p>
+<p><span class="math display">\[\sum_{x}P(y|x)=P(y)P(x|y)=P(y)\sum_{x}P(x|y)=P(y)\]</span></p>
 
 </div>
 </div>
