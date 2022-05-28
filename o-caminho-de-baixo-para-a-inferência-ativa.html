@@ -23,7 +23,7 @@
 <meta name="author" content="Thomas Parr, Giovanni Pezzulo, and Karl J. Friston" />
 
 
-<meta name="date" content="2022-05-27" />
+<meta name="date" content="2022-05-28" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -124,6 +124,7 @@
 <p>Há uma longa tradição de ver o cérebro como uma “máquina preditiva”, ou um órgão estatístico que infere e prevê estados externos do mundo. Essa ideia remonta à noção de “percepção como inferência inconsciente” (Helmholtz 1866). Mais recentemente, isso foi reformulado como a hipótese do “cérebro bayesiano” (Doya 2007). A partir dessa perspectiva, a percepção não é uma transdução puramente de baixo para cima de estados sensoriais (por exemplo, da retina) em representações internas do que está lá fora (por exemplo, como padrões de atividade neuronal). Em vez disso, é um processo inferencial que combina informações anteriores (de cima para baixo) sobre as causas mais prováveis ​​das sensações com estímulos sensoriais (de baixo para cima). Os processos inferenciais operam em representações probabilísticas de estados do mundo e seguem a regra de Bayes, que prescreve a atualização (ótima) à luz da evidência sensorial. A percepção não é um processo passivo de fora para dentro – no qual a informação é extraída de impressões em nosso epitélio sensorial de “lá fora”. É um processo construtivo de dentro para fora – no qual as sensações são usadas para confirmar ou refutar hipóteses sobre como elas foram geradas (MacKay 1956, Gregory 1980, Yuille e Kersten 2006, Neisser 2014, A. Clark 2015).</p>
 <p>Por sua vez, realizar a inferência Bayesiana requer um modelo generativo – às vezes chamado de modelo direto. Um modelo generativo é uma construção da teoria estatística que gera previsões sobre as observações. Pode ser formulado como a probabilidade conjunta <span class="math inline">\(P({\color{Red}x,\color{Orange}y)}\)</span> das observações <span class="math inline">\(\color{Orange}y\)</span> e os estados ocultos do mundo <span class="math inline">\(\color{Red}x\)</span> que geram essas observações. Estes últimos são referidos como estados ocultos ou latentes, pois não podem ser observados diretamente. Esta probabilidade conjunta pode ser decomposta em duas partes. O primeiro é um <span class="math inline">\(P({\color{Red}x)}\)</span> prévio, que denota o conhecimento do organismo sobre os estados ocultos do mundo antes de ver os dados sensoriais.</p>
 <p>A segunda é a probabilidade <span class="math inline">\(P( y | x)\)</span>, que denota o conhecimento do organismo de como as observações são geradas a partir de estados. A regra de Bayes nos diz como combinar esses dois elementos, essencialmente atualizando uma probabilidade anterior <span class="math inline">\(P(x)\)</span> em uma probabilidade posterior de estados ocultos após receber observações <span class="math inline">\(P(x | y)\)</span>. Para os leitores que precisam de uma breve atualização sobre a teoria básica da probabilidade, o <strong>quadro 2.1</strong> fornece um resumo.</p>
+<p>A inferência bayesiana é um tópico amplo que surge em disciplinas como estatística, aprendizado de máquina e neurociência computacional. Um tratamento completo dos tópicos associados está além do escopo deste livro, mas há excelentes recursos disponíveis para aqueles que desejam entendê-lo em profundidade (Murphy 2012). No entanto, tudo isso é baseado em uma regra simples. Para ilustrar essa regra, consideramos um exemplo de inferência perceptiva Bayesiana (figura 2.1). Imagine uma pessoa que acredita fortemente que está diante de uma maçã. Essa crença corresponde a uma probabilidade anterior, ou abreviada. Essa priori compreende a probabilidade atribuída à hipótese da maçã e a probabilidade atribuída às hipóteses alternativas. Neste exemplo, nossa hipótese alternativa é que não é uma maçã, mas um sapo. Numericamente, a distribuição de probabilidade anterior atribui 0,9 à maçã e 0,1 à rã. Observe que, como assumimos que existem apenas duas hipóteses plausíveis (mutuamente exclusivas), elas devem somar um. A pessoa também está equipada com um modelo de probabilidade, que atribui uma alta probabilidade ao fato de que os sapos pulam, enquanto as maçãs não. Essa probabilidade especifica o mapeamento (probabilístico) dos dois estados ocultos (sapo ou maçã) para as duas observações (pula ou não pula). Juntos, o anterior e a probabilidade formam o modelo generativo da pessoa.</p>
 <table>
 <colgroup>
 <col width="100%" />
@@ -147,8 +148,55 @@
 </div>
 <p>Sob o modelo de verossimilhança da figura 2.1, a probabilidade posterior atribuída ao sapo é 0,9 e a probabilidade atribuída à maçã é 0,1. Conforme destacado no quadro 2.1, o denominador da equação 2.1 pode ser calculado marginalizando o numerador. Usando nosso exemplo do sapo-maçã, aproveitamos a oportunidade para descompactar duas noções diferentes de surpresa — ambas importantes na Inferência Ativa. A primeira, a que nos referimos simplesmente como surpresa, é a evidência logarítmica negativa, onde a evidência é a probabilidade marginal das observações. Em nosso exemplo, esta é a probabilidade logarítmica negativa de observar qualquer coisa saltando sob o modelo generativo. A surpresa é uma quantidade muito importante do ponto de vista bayesiano. É uma medida de quão mal um modelo se ajusta aos dados que tenta explicar. Para colocar isso intuitivamente, podemos calcular a probabilidade do comportamento observado (pulo) sob nosso modelo. Lembre-se de que isso atribui uma probabilidade a priori muito alta às maçãs e uma probabilidade a priori baixa às rãs. Assim, nossa probabilidade marginal de pular é a seguinte:</p>
 <p><img src="images/Prob%20Sapos%20Ma%C3%A7as.png" /></p>
+<p>Isso significa que, sob esse modelo, esperaríamos observar o comportamento de pulor cerca de 9 vezes em 100 observações. Como tal, deveríamos nos surpreender ao observar isso se subscrevermos o modelo da figura 2.1. Podemos quantificar isso em termos de surpresa <span class="math inline">\((ℑ)\)</span>. Isso é dado por <span class="math inline">\(ℑ(y=pular) = −lnP(y=pular) = −ln(0,09) = 2,4 nats\)</span> <a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a> . Quanto maior esse número, pior o modelo como explicação adequada para as observações em questão. Isso nos permite comparar modelos em relação aos dados. Por exemplo, considere um modelo alternativo, onde temos uma crença prévia de que os sapos são vistos 100% do tempo. Seguindo os mesmos passos da equação 2.2, calculamos uma surpresa de cerca de 0,2 nats. Este é um modelo melhor desses dados, pois a observação é muito menos surpreendente. O procedimento de pontuação de modelos com base em suas evidências (ou surpresa) é frequentemente chamado de comparação de modelos bayesianos. Para modelos mais complicados, a forma da surpresa pode não ser tão simples.</p>
+<p>A <strong>Tabela 2.1</strong> fornece a forma da surpresa (omitindo constantes) para uma série de distribuições de probabilidade – além da probabilidade categórica em nosso exemplo. Crucialmente, isso nos permite falar sobre surpresa para distribuições de probabilidade cujo suporte<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a> difere do exemplo simples usado aqui. Isso é importante porque a maneira pela qual os dados sensoriais são gerados pelo mundo varia com o tipo de dados. Podemos nos surpreender ao encontrar o rosto de alguém que não esperávamos ver (distribuição categórica), ou podemos nos surpreender por estar mais frio do lado de fora do que prevíamos (distribuição contínua). A Tabela 2.1 pode ser vista como um portfólio das distribuições de probabilidade à nossa disposição quando passamos a construir modelos generativos em capítulos subsequentes. De maneira mais geral, ele afirma que a surpresa é um conceito que pode ser avaliado para qualquer família de distribuições de probabilidade.</p>
+<table>
+<colgroup>
+<col width="27%" />
+<col width="45%" />
+<col width="27%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Distribuição</th>
+<th align="center">Suporte</th>
+<th align="center">Surpresa<span class="math inline">\((ℑ)\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">Gaussiana<a href="#fn5" class="footnote-ref" id="fnref5"><sup>5</sup></a></td>
+<td align="center"><span class="math inline">\(x\in\mathbb{R}\)</span></td>
+<td align="center"><span class="math inline">\(\frac{1}{2}(x-\mu)\prod(x-\mu)\)</span></td>
+</tr>
+<tr class="even">
+<td align="center">Multinomial</td>
+<td align="center"><span class="math display">\[x_{i}\in\left ( 0,\cdots, N \right )\]</span> <span class="math display">\[{i}\in\left \{ 1 , \cdots , K \right \}\]</span> <span class="math display">\[\sum_i{x_i}=N\]</span></td>
+<td align="center"><span class="math display">\[-\sum_i{x_i}\ln d_i\]</span></td>
+</tr>
+<tr class="odd">
+<td align="center">Dirichlet<a href="#fn6" class="footnote-ref" id="fnref6"><sup>6</sup></a></td>
+<td align="center"><span class="math display">\[x_{i}\in\left ( 0,1 \right )\]</span> <span class="math display">\[{i}\in\left \{ 1 , \cdots , K \right \}\]</span> <span class="math display">\[\sum_i{x_i}=1\]</span></td>
+<td align="center"><span class="math inline">\(\sum(1 - \alpha_i)\ln(x_i)\)</span></td>
+</tr>
+<tr class="even">
+<td align="center">Gamma</td>
+<td align="center"><span class="math inline">\(x\in(0,\infty)\)</span></td>
+<td align="center">$ (bx+(1-a)x)$</td>
+</tr>
+</tbody>
+</table>
 
 </div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="3">
+<li id="fn3"><p>Como bits, nats são unidades de informação. A escolha da unidade depende se usamos um logaritmo de base 2 (bits) ou um logaritmo natural (nats).<a href="o-caminho-de-baixo-para-a-inferência-ativa.html#fnref3" class="footnote-back">↩︎</a></p></li>
+<li id="fn4"><p>Suporte é um termo técnico que se refere aos argumentos possíveis para uma distribuição. Por exemplo, o suporte de uma distribuição de probabilidade categórica é uma série de estados alternativos (isto é, espaço de eventos) cuja probabilidade pode ser quantificada. O suporte de uma distribuição normal univariada é toda a reta numérica real.<a href="o-caminho-de-baixo-para-a-inferência-ativa.html#fnref4" class="footnote-back">↩︎</a></p></li>
+<li id="fn5"><p>Casos especiais incluem distribuições categóricas <span class="math inline">\((K  &gt; 2, N  =  1)\)</span>, binomial <span class="math inline">\((K  = 2, N  &gt;  1)\)</span> e Bernoulli <span class="math inline">\((K = 2, N  =  1)\)</span><a href="o-caminho-de-baixo-para-a-inferência-ativa.html#fnref5" class="footnote-back">↩︎</a></p></li>
+<li id="fn6"><p>Um caso especial é a distribuição beta <span class="math inline">\((K=2)\)</span><a href="o-caminho-de-baixo-para-a-inferência-ativa.html#fnref6" class="footnote-back">↩︎</a></p></li>
+</ol>
 </div>
             </section>
 
