@@ -23,7 +23,7 @@
 <meta name="author" content="Thomas Parr, Giovanni Pezzulo, and Karl J. Friston" />
 
 
-<meta name="date" content="2022-05-28" />
+<meta name="date" content="2022-05-30" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -90,6 +90,7 @@
 <ul>
 <li class="chapter" data-level="2.1" data-path="o-caminho-de-baixo-para-a-inferência-ativa.html"><a href="o-caminho-de-baixo-para-a-inferência-ativa.html#introdução-1"><i class="fa fa-check"></i><b>2.1</b> Introdução</a></li>
 <li class="chapter" data-level="2.2" data-path="o-caminho-de-baixo-para-a-inferência-ativa.html"><a href="o-caminho-de-baixo-para-a-inferência-ativa.html#percepção-como-inferência"><i class="fa fa-check"></i><b>2.2</b> Percepção como Inferência</a></li>
+<li class="chapter" data-level="2.3" data-path="o-caminho-de-baixo-para-a-inferência-ativa.html"><a href="o-caminho-de-baixo-para-a-inferência-ativa.html#inferência-biológica-e-otimização"><i class="fa fa-check"></i><b>2.3</b> Inferência Biológica e Otimização</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="dicionário.html"><a href="dicionário.html"><i class="fa fa-check"></i>Dicionário</a></li>
 <li class="divider"></li>
@@ -150,6 +151,7 @@
 <p><img src="images/Prob%20Sapos%20Ma%C3%A7as.png" /></p>
 <p>Isso significa que, sob esse modelo, esperaríamos observar o comportamento de pulor cerca de 9 vezes em 100 observações. Como tal, deveríamos nos surpreender ao observar isso se subscrevermos o modelo da figura 2.1. Podemos quantificar isso em termos de surpresa <span class="math inline">\((ℑ)\)</span>. Isso é dado por <span class="math inline">\(ℑ(y=pular) = −lnP(y=pular) = −ln(0,09) = 2,4 nats\)</span> <a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a> . Quanto maior esse número, pior o modelo como explicação adequada para as observações em questão. Isso nos permite comparar modelos em relação aos dados. Por exemplo, considere um modelo alternativo, onde temos uma crença prévia de que os sapos são vistos 100% do tempo. Seguindo os mesmos passos da equação 2.2, calculamos uma surpresa de cerca de 0,2 nats. Este é um modelo melhor desses dados, pois a observação é muito menos surpreendente. O procedimento de pontuação de modelos com base em suas evidências (ou surpresa) é frequentemente chamado de comparação de modelos bayesianos. Para modelos mais complicados, a forma da surpresa pode não ser tão simples.</p>
 <p>A <strong>Tabela 2.1</strong> fornece a forma da surpresa (omitindo constantes) para uma série de distribuições de probabilidade – além da probabilidade categórica em nosso exemplo. Crucialmente, isso nos permite falar sobre surpresa para distribuições de probabilidade cujo suporte<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a> difere do exemplo simples usado aqui. Isso é importante porque a maneira pela qual os dados sensoriais são gerados pelo mundo varia com o tipo de dados. Podemos nos surpreender ao encontrar o rosto de alguém que não esperávamos ver (distribuição categórica), ou podemos nos surpreender por estar mais frio do lado de fora do que prevíamos (distribuição contínua). A Tabela 2.1 pode ser vista como um portfólio das distribuições de probabilidade à nossa disposição quando passamos a construir modelos generativos em capítulos subsequentes. De maneira mais geral, ele afirma que a surpresa é um conceito que pode ser avaliado para qualquer família de distribuições de probabilidade.</p>
+<p><strong>Tabela 2.1 Distribuições de probabilidade e surpresa<a href="#fn5" class="footnote-ref" id="fnref5"><sup>5</sup></a></strong></p>
 <table>
 <colgroup>
 <col width="27%" />
@@ -165,7 +167,7 @@
 </thead>
 <tbody>
 <tr class="odd">
-<td align="center">Gaussiana<a href="#fn5" class="footnote-ref" id="fnref5"><sup>5</sup></a></td>
+<td align="center">Gaussiana<a href="#fn6" class="footnote-ref" id="fnref6"><sup>6</sup></a></td>
 <td align="center"><span class="math inline">\(x\in\mathbb{R}\)</span></td>
 <td align="center"><span class="math inline">\(\frac{1}{2}(x-\mu)\prod(x-\mu)\)</span></td>
 </tr>
@@ -175,17 +177,50 @@
 <td align="center"><span class="math display">\[-\sum_i{x_i}\ln d_i\]</span></td>
 </tr>
 <tr class="odd">
-<td align="center">Dirichlet<a href="#fn6" class="footnote-ref" id="fnref6"><sup>6</sup></a></td>
+<td align="center">Dirichlet<a href="#fn7" class="footnote-ref" id="fnref7"><sup>7</sup></a></td>
 <td align="center"><span class="math display">\[x_{i}\in\left ( 0,1 \right )\]</span> <span class="math display">\[{i}\in\left \{ 1 , \cdots , K \right \}\]</span> <span class="math display">\[\sum_i{x_i}=1\]</span></td>
 <td align="center"><span class="math inline">\(\sum(1 - \alpha_i)\ln(x_i)\)</span></td>
 </tr>
 <tr class="even">
 <td align="center">Gamma</td>
 <td align="center"><span class="math inline">\(x\in(0,\infty)\)</span></td>
-<td align="center">$ (bx+(1-a)x)$</td>
+<td align="center"><span class="math inline">\((bx+(1-a)\ln x)\)</span></td>
 </tr>
 </tbody>
 </table>
+<p>A segunda noção de surpresa é (um pouco confusa) referida como surpresa bayesiana. Esta é uma medida de quanto temos que atualizar nossas crenças após uma observação. Em outras palavras, a surpresa Bayesiana quantifica a diferença entre uma probabilidade anterior e uma posterior. Isso levanta a questão de como quantificamos a dissimilaridade de duas distribuições de probabilidade.</p>
+<p>Uma resposta, da teoria da informação, é usar uma divergência de Kullback-Leibler (KL). Isso é definido como a diferença média entre duas probabilidades logarítmicas</p>
+<p><span class="math inline">\(D_{KL}[Q(x)||P(x)] \overset{\Delta}{=} \mathbb{E_{Q(x)}}[\ln{Q(x)} - \ln{P(x)}] \quad\quad\quad\quad\quad\quad\quad\quad\quad\quad \text{(2.3)}\)</span></p>
+<p>O símbolo <span class="math inline">\(\mathbb{E}\)</span> aqui indica uma média (ou expectativa) conforme descrito no <strong>quadro 2.2</strong>. Usando o KL-Divergence, podemos quantificar a surpresa Bayesiana do nosso exemplo:</p>
+<p><img src="images/Surpresa%20Sapos%20Ma%C3%A7as.png" /></p>
+<p>Isso pontua a quantidade de atualização de crenças, em oposição a simplesmente quão improvável era a observação. Para destacar a distinção entre surpresa e surpresa bayesiana, considere o que acontece se nos comprometermos com uma crença prévia de que sempre veremos maçãs. A surpresa bayesiana será zero, já que o prior está tão confiante que não o atualizamos seguindo nossas observações. No entanto, a surpresa é muito grande (4,6 nats), pois é altamente improvável que uma maçã salte.</p>
+<table>
+<colgroup>
+<col width="100%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"><strong>Quadro 2.2 Expectativas</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">É útil referir-se à expectativa de uma variável aleatória <span class="math inline">\(x\)</span>, geralmente denotada por <span class="math inline">\(\mathbb{E[x]}\)</span>. Esta é a média ponderada de todos os valores que a variável pode assumir, ponderada pela sua probabilidade. Para variáveis aleatórias discretas (que só podem receber um número contável de valores possíveis), isso é dado por uma soma ponderada: <span class="math display">\[\mathbb{E(x)}=\sum_x{xP(x)}\]</span> Por exemplo, para uma variável discreta (numérica) que só pode assumir dois valores (1 e 2) com igual probabilidade de <span class="math inline">\(\frac{1}{2}\)</span>, isto é <span class="math inline">\(\mathbb{E(x)}=1*\frac{1}{2}+2*\frac{1}{2}=\frac{3}{2}\)</span>. Para variáveis aleatórias contínuas (que podem ter infinitos valores), as somas são substituídas por integrais. As expectativas também podem ser aplicadas a funções de variáveis aleatórias, em oposição às variáveis diretamente. Por exemplo, se tivermos uma função f (x), onde x tem alguma distribuição contínua, a expectativa é definida como segue: <span class="math display">\[\mathbb{E[f(x)]}=\int_{}^{} f(x)p(x)\, dx\]</span>Usaremos essa notação ao longo deste livro, onde a função <span class="math inline">\(f (x)\)</span> será frequentemente uma probabilidade logarítmica ou razão de probabilidade logarítmica.</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+</tr>
+</tbody>
+</table>
+<p>Observe que, embora tenhamos ilustrado a inferência bayesiana com base em um modelo generativo muito simples, ela se aplica a modelos generativos de qualquer complexidade. No capítulo 4, destacaremos duas formas de modelo generativo que subscrevem a maioria das aplicações em Inferência Ativa.</p>
+</div>
+<div id="inferência-biológica-e-otimização" class="section level2 hasAnchor" number="2.3">
+<h2><span class="header-section-number">2.3</span> Inferência Biológica e Otimização<a href="o-caminho-de-baixo-para-a-inferência-ativa.html#inferência-biológica-e-otimização" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Há dois pontos importantes que conectam o esquema inferencial acima às teorias biológicas e psicológicas da percepção. Primeiro, o procedimento inferencial discutido requer a interação de processos de cima para baixo que codificam previsões (a partir do anterior) e processos de baixo para cima que codificam observações sensoriais (mediadas pela probabilidade). Essa interação de processos de cima para baixo e de baixo para cima distingue a visão inferencial de abordagens alternativas que consideram apenas processos de baixo para cima. Além disso, é central nos tratamentos biológicos modernos da percepção, como a codificação preditiva (discutida no capítulo 4), que é uma implementação algorítmica específica (ou em nível de processo) do esquema de inferência mais geral (bayesiano) discutido aqui.</p>
+<p>Em segundo lugar, a inferência Bayesiana é ótima. A otimalidade é definida em relação a uma função de custo que é otimizada (ou seja, minimizada), que, por inferência Bayesiana, é conhecida como energia livre variacional – intimamente relacionada à surpresa. Voltamos a isso na seção 2.5. Ao considerar explicitamente a distribuição completa sobre os estados ocultos, ele lida naturalmente com a incerteza, evitando as limitações de abordagens alternativas que consideram apenas estimativas pontuais de estados ocultos (por exemplo, o valor médio de x). Uma dessas alternativas seria a estimativa de máxima verossimilhança, que simplesmente seleciona o estado oculto mais provável de ter gerado os dados disponíveis. O problema com isso é que tais estimativas ignoram tanto a plausibilidade prévia do estado oculto quanto a incerteza em torno da estimativa. A inferência bayesiana não sofre essas limitações. No entanto, apesar do uso da surpresa para avaliar objetivamente se o modelo é adequado ao propósito, é importante apreciar que a inferência em si é subjetiva. Os resultados da inferência não são necessariamente precisos em nenhum sentido objetivo (ou seja, a crença do organismo pode não corresponder à realidade) por pelo menos duas razões importantes. Primeiro, as criaturas biológicas operam com base em recursos computacionais e energéticos limitados, que tornam a inferência Bayesiana exata intratável<a href="#fn8" class="footnote-ref" id="fnref8"><sup>8</sup></a> . Isso requer aproximações que excluem garantias de otimalidade Bayesiana exata. Essas aproximações incluem a noção de uma posterior variacional - baseada em algo chamado aproximação de campo médio - que é central para o capítulo 4.</p>
+<p>A segunda razão pela qual a otimalidade pode ser pensada como subjetiva é que os organismos operam com base no modelo generativo de um sujeito de como suas observações são geradas, o que pode ou não corresponder ao processo generativo real que gera suas observações. Isso não quer dizer que o modelo generativo deva corresponder ao processo generativo. De fato, pode haver modelos que forneçam explicações melhores (por exemplo, mais simples) dos dados disponíveis do que os processos que realmente os geraram – conforme quantificado por sua relativa surpresa. Um bom exemplo disso são as ilusões, para as quais alguém encontra uma explicação mais simples para sua entrada visual em relação a como os estímulos visuais foram cuidadosamente projetados por um psicofísico malicioso.</p>
+<p>O próprio modelo generativo pode ser otimizado à medida que novas experiências são adquiridas. Isso pode ou não convergir para o processo generativo.</p>
+<p>A <strong>Figura 2.2</strong> ilustra esse ponto e a diferença entre as verdadeiras contingências ambientais, ou o processo generativo, que é inacessível ao organismo e o modelo generativo do organismo do mundo. Neste exemplo em particular, o processo generativo está em um verdadeiro estado x* que é inacessível ao organismo. No entanto, o organismo e o mundo estão mutuamente acoplados, e x* gera uma observação y, que o organismo sente. O organismo pode usar esta observação y e a regra de Bayes para inferir a (probabilidade posterior de ) alguma variável explicativa ou estado oculto no modelo generativo. Na figura, nos referimos a x* e x como estados ocultos, enfatizando que nenhum deles é observável. No entanto, eles são sutilmente diferentes: o primeiro faz parte do modelo generativo do organismo, enquanto o último faz parte do processo generativo e inacessível ao organismo. Além disso, x* e x não vivem necessariamente no mesmo espaço. Pode ser que os estados ocultos no mundo externo assumam valores que estão fora do espaço de explicações disponíveis ao cérebro. Por outro lado, pode ser que as explicações do cérebro incluam variáveis ​​que não existem no mundo exterior. Por exemplo, o primeiro pode ser de 5 dimensões e o último de 2 dimensões, ou um pode ser contínuo e o outro categórico.</p>
 
 </div>
 </div>
@@ -194,8 +229,10 @@
 <ol start="3">
 <li id="fn3"><p>Como bits, nats são unidades de informação. A escolha da unidade depende se usamos um logaritmo de base 2 (bits) ou um logaritmo natural (nats).<a href="o-caminho-de-baixo-para-a-inferência-ativa.html#fnref3" class="footnote-back">↩︎</a></p></li>
 <li id="fn4"><p>Suporte é um termo técnico que se refere aos argumentos possíveis para uma distribuição. Por exemplo, o suporte de uma distribuição de probabilidade categórica é uma série de estados alternativos (isto é, espaço de eventos) cuja probabilidade pode ser quantificada. O suporte de uma distribuição normal univariada é toda a reta numérica real.<a href="o-caminho-de-baixo-para-a-inferência-ativa.html#fnref4" class="footnote-back">↩︎</a></p></li>
-<li id="fn5"><p>Casos especiais incluem distribuições categóricas <span class="math inline">\((K  &gt; 2, N  =  1)\)</span>, binomial <span class="math inline">\((K  = 2, N  &gt;  1)\)</span> e Bernoulli <span class="math inline">\((K = 2, N  =  1)\)</span><a href="o-caminho-de-baixo-para-a-inferência-ativa.html#fnref5" class="footnote-back">↩︎</a></p></li>
-<li id="fn6"><p>Um caso especial é a distribuição beta <span class="math inline">\((K=2)\)</span><a href="o-caminho-de-baixo-para-a-inferência-ativa.html#fnref6" class="footnote-back">↩︎</a></p></li>
+<li id="fn5"><p>Os detalhes desta tabela não são importantes para entender conceitualmente a Inferência Ativa, mas para leitores interessados, descompactamos brevemente os pontos-chave. A coluna Suporte nos informa o conjunto de variáveis cuja surpresa pode ser quantificada usando cada distribuição. Este é o conjunto de números reais para a distribuição gaussiana. Para a distribuição multinomial, o suporte compreende um grupo de K variáveis, cada uma assumindo um valor inteiro até um máximo N, sob a restrição de que todos os elementos desse grupo somam N. Para a distribuição de Dirichlet, o suporte inclui qualquer grupo de K números reais entre 0 e 1, onde todos os elementos do grupo somam 1. A distribuição gama quantifica a surpresa de números reais não negativos. A coluna Surpresa mostra como a surpresa pode ser calculada. Isso depende de constantes (além da variável aleatória x) que controlam a forma da distribuição subjacente.<a href="o-caminho-de-baixo-para-a-inferência-ativa.html#fnref5" class="footnote-back">↩︎</a></p></li>
+<li id="fn6"><p>Casos especiais incluem distribuições categóricas <span class="math inline">\((K  &gt; 2, N  =  1)\)</span>, binomial <span class="math inline">\((K  = 2, N  &gt;  1)\)</span> e Bernoulli <span class="math inline">\((K = 2, N  =  1)\)</span><a href="o-caminho-de-baixo-para-a-inferência-ativa.html#fnref6" class="footnote-back">↩︎</a></p></li>
+<li id="fn7"><p>Um caso especial é a distribuição beta <span class="math inline">\((K=2)\)</span><a href="o-caminho-de-baixo-para-a-inferência-ativa.html#fnref7" class="footnote-back">↩︎</a></p></li>
+<li id="fn8"><p>Curiosamente, as limitações de recursos não são a única barreira para a inferência Bayesiana exata. Na presença de modelos complexos, a inferência exata pode ser analiticamente intratável, de modo que nenhum recurso adicional poderia ajudar a resolver o problema exato.<a href="o-caminho-de-baixo-para-a-inferência-ativa.html#fnref8" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
             </section>

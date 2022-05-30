@@ -9,3 +9,4 @@ resumo
 o-caminho-de-baixo-para-a-inferência-ativa
 introdução-1
 percepção-como-inferência
+inferência-biológica-e-otimização
