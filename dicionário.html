@@ -23,7 +23,7 @@
 <meta name="author" content="Thomas Parr, Giovanni Pezzulo, and Karl J. Friston" />
 
 
-<meta name="date" content="2022-05-30" />
+<meta name="date" content="2022-05-31" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -91,6 +91,9 @@
 <li class="chapter" data-level="2.1" data-path="o-caminho-de-baixo-para-a-inferência-ativa.html"><a href="o-caminho-de-baixo-para-a-inferência-ativa.html#introdução-1"><i class="fa fa-check"></i><b>2.1</b> Introdução</a></li>
 <li class="chapter" data-level="2.2" data-path="o-caminho-de-baixo-para-a-inferência-ativa.html"><a href="o-caminho-de-baixo-para-a-inferência-ativa.html#percepção-como-inferência"><i class="fa fa-check"></i><b>2.2</b> Percepção como Inferência</a></li>
 <li class="chapter" data-level="2.3" data-path="o-caminho-de-baixo-para-a-inferência-ativa.html"><a href="o-caminho-de-baixo-para-a-inferência-ativa.html#inferência-biológica-e-otimização"><i class="fa fa-check"></i><b>2.3</b> Inferência Biológica e Otimização</a></li>
+<li class="chapter" data-level="2.4" data-path="o-caminho-de-baixo-para-a-inferência-ativa.html"><a href="o-caminho-de-baixo-para-a-inferência-ativa.html#ação-como-inferência"><i class="fa fa-check"></i><b>2.4</b> Ação como Inferência</a></li>
+<li class="chapter" data-level="2.5" data-path="o-caminho-de-baixo-para-a-inferência-ativa.html"><a href="o-caminho-de-baixo-para-a-inferência-ativa.html#minimizando-a-discrepância-entre-o-modelo-e-o-mundo"><i class="fa fa-check"></i><b>2.5</b> Minimizando a discrepância entre o modelo e o mundo</a></li>
+<li class="chapter" data-level="2.6" data-path="o-caminho-de-baixo-para-a-inferência-ativa.html"><a href="o-caminho-de-baixo-para-a-inferência-ativa.html#minimizando-a-energia-livre-variacional"><i class="fa fa-check"></i><b>2.6</b> Minimizando a Energia Livre Variacional</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="dicionário.html"><a href="dicionário.html"><i class="fa fa-check"></i>Dicionário</a></li>
 <li class="divider"></li>
@@ -130,21 +133,8 @@ evidências empíricas..
 ver mais em: <a href="https://periodicos.ufmg.br/index.php/memorandum/article/download/6857/4411/22713">A teoria de Helmholtz sobre a percepção espacial: psicofísica e
 filosofia transcendental</a></p>
 <p><strong>Divergência de Kullback-leibler</strong>(também chamada de entropia relativa) é uma medida não-simétrica da diferença entre duas distribuições de probabilidade. Uma divergência de Kullback-Leibler igual a 0 indica que as funçõe/distribuições P e Q são muito parecidas (iguais, até), enquanto uma divergência de 1 indica que se comportam de maneira diferente.</p>
-<p><strong>uma variável</strong> aleatória: <span class="math inline">\(x\)</span> [1]<br />
-todos os eventos possíveis de uma variável aleatória: <span class="math inline">\(x_1\)</span> <span class="math inline">\(x_2\)</span> <span class="math inline">\(x_3\)</span> … <span class="math inline">\(x_n\)</span> [2]<br />
-probabilidade de evento <span class="math inline">\(x\)</span> acontecer: <span class="math inline">\(P(x)\)</span> [3]<br />
-soma de todos os eventos possíveis é um: <span class="math inline">\(\sum_{x}P(x)=1\)</span> [4]</p>
-<p><strong>duas variáveis</strong> aleatórias: <span class="math inline">\(x\)</span> e <span class="math inline">\(y\)</span><br />
-probabilidade de evento <span class="math inline">\(x\)</span> acontecer: <span class="math inline">\(P(x)\)</span><br />
-probabilidade de evento <span class="math inline">\(y\)</span> acontecer, dado que x já aconteceu: <span class="math inline">\(P(y|x)\)</span><br />
-probabilidade dos dois eventos acotecerem ao mesmo tempo: <span class="math inline">\(P(x,y)\)</span><br />
-que é o:
-<span class="math display">\[P(x,y) = P(x)P(y|x)\]</span>
-operação de <strong>marginalização</strong></p>
-<p>probabilidade de um “evento conjunto” acontecer: <span class="math inline">\(P(x,y)\)</span> [igual em 3, pq não seria? ]<br />
-soma de todos os eventos possível é um: <span class="math inline">\(\sum_{x,y}P(x,y)=1\)</span> [como em 4 - só que a turma abstrai os indices ]</p>
-<p><span class="math inline">\(\sum_{x,y}P(x,y)=1=\sum_{x,y}P(x)P(y|x)=P(x)\sum_{x,y}P(y|x)\)</span></p>
-<p><span class="math display">\[\sum_{x}P(y|x)=P(y)P(x|y)=P(y)\sum_{x}P(x|y)=P(y)\]</span></p>
+<p><strong>foveate</strong> Angular os olhos de tal forma que as fóveas sejam direcionadas (um objeto em seu campo de visão), sendo a fóvea a porção da retina responsável pela visão central nítida.</p>
+<p><strong>ELBO</strong> The evidence lower bound = limite inferior de evidência</p>
 
 </div>
 

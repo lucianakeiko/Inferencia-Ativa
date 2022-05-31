@@ -10,3 +10,6 @@ o-caminho-de-baixo-para-a-inferência-ativa
 introdução-1
 percepção-como-inferência
 inferência-biológica-e-otimização
+ação-como-inferência
+minimizando-a-discrepância-entre-o-modelo-e-o-mundo
+minimizando-a-energia-livre-variacional
