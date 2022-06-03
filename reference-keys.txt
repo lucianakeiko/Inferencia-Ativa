@@ -14,3 +14,4 @@ ação-como-inferência
 minimizando-a-discrepância-entre-o-modelo-e-o-mundo
 minimizando-a-energia-livre-variacional
 energia-livre-esperada-e-planejamento-como-inferência
+o-que-é-energia-livre-esperada
