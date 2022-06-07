@@ -23,7 +23,7 @@
 <meta name="author" content="Thomas Parr, Giovanni Pezzulo, and Karl J. Friston" />
 
 
-<meta name="date" content="2022-06-06" />
+<meta name="date" content="2022-06-07" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -103,6 +103,14 @@
 <ul>
 <li class="chapter" data-level="3.1" data-path="o-caminho-para-a-inferência-ativa.html"><a href="o-caminho-para-a-inferência-ativa.html#introdução-2"><i class="fa fa-check"></i><b>3.1</b> Introdução</a></li>
 <li class="chapter" data-level="3.2" data-path="o-caminho-para-a-inferência-ativa.html"><a href="o-caminho-para-a-inferência-ativa.html#envoltórios-de-markov"><i class="fa fa-check"></i><b>3.2</b> Envoltórios de Markov</a></li>
+<li class="chapter" data-level="3.3" data-path="o-caminho-para-a-inferência-ativa.html"><a href="o-caminho-para-a-inferência-ativa.html#minimização-de-surpresa-e-auto-evidência"><i class="fa fa-check"></i><b>3.3</b> Minimização de surpresa e auto-evidência</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="o-caminho-para-a-inferência-ativa.html"><a href="o-caminho-para-a-inferência-ativa.html#minimização-de-surpresa-como-um-princípio-hamiltoniano-de-menor-ação"><i class="fa fa-check"></i><b>3.3.1</b> Minimização de surpresa como um princípio hamiltoniano de menor ação</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="o-caminho-para-a-inferência-ativa.html"><a href="o-caminho-para-a-inferência-ativa.html#relações-entre-inferência-cognição-e-dinâmica-estocástica"><i class="fa fa-check"></i><b>3.4</b> Relações entre Inferência, Cognição e Dinâmica Estocástica</a>
+<ul>
+<li class="chapter" data-level="3.4.1" data-path="o-caminho-para-a-inferência-ativa.html"><a href="o-caminho-para-a-inferência-ativa.html#energia-livre-variacional-evidência-modelo-e-surpresa"><i class="fa fa-check"></i><b>3.4.1</b> Energia Livre Variacional, Evidência Modelo e Surpresa</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="dicionário.html"><a href="dicionário.html"><i class="fa fa-check"></i>Dicionário</a></li>
 <li class="divider"></li>
@@ -164,8 +172,104 @@
 </div>
 <p>Primeiro, formaliza o fato de que os estados internos de um sistema adaptativo são autônomos da dinâmica ambiental e, portanto, podem resistir às suas influências. Em segundo lugar, ela estrutura a maneira pela qual os sistemas adaptativos minimizam sua surpresa: destaca os estados internos, sensoriais e ativos aos quais eles têm acesso. Especificamente, a surpresa é definida em relação aos estados sensoriais, enquanto a dinâmica dos estados internos e ativos são os meios pelos quais a surpresa dos estados sensoriais pode ser minimizada.</p>
 <p>O ponto-chave a ser observado aqui é que os estados internos de um sistema adaptativo têm uma relação formal com os estados externos. Isso se deve a um tipo de simetria em toda o envoltório de Markov, pois tanto influenciam quanto são influenciadas por estados do envoltório. Uma consequência disso é que podemos construir distribuições de probabilidade condicional para os estados internos e externos, dados os estados gerais. Como eles estão condicionados aos mesmos estados gerais, podemos associar pares de estados internos e externos esperados entre si. Em outras palavras, em média, os estados interno e externo adquirem uma espécie de sincronia (generalizada) – exatamente como poderíamos antecipar ao prender um pêndulo a cada extremidade de uma viga de madeira. Com o tempo, à medida que se sincronizam, cada pêndulo torna-se preditivo do outro através da influência vicária do feixe (Huygens 1673).</p>
+<p>A Figura 3.2 oferece uma intuição gráfica para essa relação. Isso significa que, se pudermos escrever distribuições independentes sobre estados externos e internos, dado seu envoltório de Markov, os dois estados se tornarão informativos um sobre o outro por meio desse envoltório.</p>
+<div class="figure">
+<img src="images/Figura_3_2.png" alt="" />
+<p class="caption">Figura 3.2 Associação entre estados internos médios de um envoltório de Markov e distribuições de estados externos. Topo: Assumindo uma forma gaussiana linear para as probabilidades condicionais, esses gráficos mostram amostras da distribuição condicional sobre estados externos e internos, respectivamente, dados estados gerais. As linhas pretas grossas indicam a média dessas variáveis, dado o estado do envoltório associado. Inferior esquerdo: Os mesmos dados são plotados para ilustrar a sincronização de estados internos e externos proporcionada pelo compartilhamento de um envoltório de Markov – aqui, uma sincronização inversa. As linhas tracejadas e a cruz preta ilustram que se conhecêssemos o estado médio interno (linha vertical), poderíamos identificar o estado médio externo (linha horizontal) e a dispersão em torno deste ponto. Inferior direito: Podemos associar o estado interno médio com uma distribuição sobre o estado externo.</p>
+</div>
+<p>Essa sincronia dá aos estados internos a aparência de representar (ou modelar) estados externos — o que remete à ideia de minimização da surpresa apresentada no capítulo 2. Isso porque a surpresa depende de um modelo interno de como os dados sensoriais são gerados. Para recapitular, minimizar a surpresa (probabilidade logarítmica negativa) de observações sensoriais torna-se idêntica a maximizar a evidência (probabilidade marginal) para o modelo, que é apenas a probabilidade de observações sensoriais sob esse modelo. Essa noção de minimização de surpresas pode ser entendida a partir de duas perspectivas equivalentes – bayesiana e de energia livre –, que discutiremos a seguir.</p>
+</div>
+<div id="minimização-de-surpresa-e-auto-evidência" class="section level2 hasAnchor" number="3.3">
+<h2><span class="header-section-number">3.3</span> Minimização de surpresa e auto-evidência<a href="o-caminho-para-a-inferência-ativa.html#minimização-de-surpresa-e-auto-evidência" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Sob uma perspectiva bayesiana, um agente com um envoltório de Markov parece modelar o ambiente externo no sentido de que estados internos correspondem (em média) a uma representação probabilística – uma crença posterior aproximada – de estados externos do sistema (figura 3.2). A dinâmica dos estados internos corresponde a uma forma de inferência bayesiana (aproximada) de estados externos, pois seu movimento altera a distribuição de probabilidade associada, que é proporcionada por um modelo generativo implícito de como as sensações (ou estados sensoriais no jargão do envoltório de Markov) são gerados. Se restabelecermos a noção de um agente como constituído por estados internos e gerais, podemos falar sobre o modelo generativo de um agente.</p>
+<p>É importante ressaltar que o modelo generativo do agente não pode simplesmente imitar a dinâmica externa (caso contrário, o agente simplesmente seguiria a dinâmica dissipativa externa). Em vez disso, o modelo também deve especificar as condições preferenciais para a existência do agente, ou as regiões de estados que o agente deve visitar para manter sua existência, ou satisfazer os critérios de sua existência em termos de ocupação de estados característicos. Esses estados preferidos (ou observações) podem ser especificados como os anteriores do modelo - o que implica que o modelo assume implicitamente que suas sensações preferidas (anteriores) são mais prováveis de ocorrer (ou seja, são menos surpreendentes) se satisfizer os critérios de existência . Isso significa que tem um viés de otimismo implícito. Esse viés de otimismo é necessário para que o agente vá além da mera duplicação de dinâmicas externas para prescrever estados ativos que subscrevem seus estados preferenciais ou característicos.</p>
+<p>Sob essa formulação, pode-se definir o comportamento ótimo (com relação às preferências anteriores) como a maximização da evidência do modelo por percepção e ação. De fato, a evidência do modelo resume quão bem o modelo generativo se ajusta ou explica as sensações. Um bom ajuste indica que o modelo explica com sucesso suas sensações (este é o lado descritivo da inferência); ao mesmo tempo, realiza suas sensações preferidas, já que são menos surpreendentes (este é o lado prescritivo da inferência). Esse bom ajuste é uma garantia de minimização da surpresa, pois maximizar a evidência do modelo <span class="math inline">\(P( y)\)</span> é matematicamente equivalente a minimizar a surpresa: <span class="math inline">\(ℑ( y)  =  −ln P( y).\)</span></p>
+<p>Uma forma de reformular os argumentos acima de forma mais sucinta consiste em dizer que qualquer sistema adaptativo se engaja em “auto-evidência” (Hohwy 2016). Autoevidenciar aqui significa agir para reunir dados sensoriais consistentes com (ou seja, que fornece evidência para) um modelo interno, maximizando assim a evidência do modelo.</p>
+<div id="minimização-de-surpresa-como-um-princípio-hamiltoniano-de-menor-ação" class="section level3 hasAnchor" number="3.3.1">
+<h3><span class="header-section-number">3.3.1</span> Minimização de surpresa como um princípio hamiltoniano de menor ação<a href="o-caminho-para-a-inferência-ativa.html#minimização-de-surpresa-como-um-princípio-hamiltoniano-de-menor-ação" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Nas seções anteriores, afirmamos que a surpresa deve ser minimizada, mas não detalhamos por que isso acontece. Embora os detalhes da física subjacente da autoevidência estejam fora do escopo deste livro (consulte Friston 2019b para obter detalhes), fornecemos aqui uma breve visão geral dos princípios. Estes são sustentados pela ideia de que criaturas biológicas – com envoltórios de Markov – persistem ao longo do tempo, resistindo aos efeitos dispersivos das flutuações ambientais. A persistência de uma envoltório de Markov implica que a distribuição de estados do envoltório permanece constante ao longo do tempo. Simplificando, isso significa que qualquer desvio de estados sensoriais (ou ativos) de regiões que são altamente prováveis ​​sob essa distribuição deve ser corrigido pelo fluxo médio de estados (que é apenas a parte determinística do fluxo na figura 3.1). Expressando isso como um físico poderia, sistemas estocásticos (aleatórios) em estado estacionário se envolvem em dinâmicas que (em média) descem uma função de energia (ou Hamiltoniana) que é interpretável como uma evidência de log negativo ou surpresa. Isso é como uma bola rolando morro abaixo de alta energia potencial gravitacional no topo da colina para baixa energia em uma bacia. Veja a figura 3.3.</p>
+<p>Para o sistema mostrado à esquerda da figura 3.3, toda vez que uma flutuação causa um movimento para um estado menos provável, isso é corrigido por um movimento para cima no gradiente de probabilidade, de modo que o sistema ocupe regiões com densidade de probabilidade maior parte do tempo . O principal insight aqui é que esse sistema mantém os estados sensoriais dentro de uma faixa estreita, minimizando a surpresa (em média) – em contraste com o sistema da direita, para o qual a surpresa cresce indefinidamente.</p>
+<div class="figure">
+<img src="images/Figura_3_3.png" alt="" />
+<p class="caption"><strong>Figura 3.3</strong> Esquerda: Caminho tomado por um sistema dinâmico aleatório bidimensional com um estado estacionário (não-equilíbrio <a href="#fn12" class="footnote-ref" id="fnref12"><sup>12</sup></a>). Isso pode ser interpretado como minimizando sua surpresa, que é mostrada no gráfico de contorno à direita. Direita: O centro é a região menos surpreendente; os círculos que se afastam do centro representam regiões progressivamente mais surpreendentes. Meio: Em contraste, este gráfico mostra a trajetória de um sistema começando no mesmo lugar (5, 5), com flutuações aleatórias de mesma amplitude, cuja dinâmica não guarda relação com surpresa. Não só entra em regiões mais surpreendentes do espaço; também não consegue atingir qualquer tipo de estado estacionário, dissipando-se de forma irrestrita ao longo do tempo. O escopo da Inferência Ativa é restrito a sistemas como o da esquerda – que contrariam flutuações aleatórias com seu fluxo médio e, assim, mantêm sua forma ao longo do tempo.</p>
+</div>
+<p>A minimização da surpresa permite que os organismos vivos resistam (temporariamente) à segunda lei da termodinâmica, que afirma que a entropia – ou a dispersão de estados sistêmicos – sempre cresce. Isso porque, em média, a entropia é a média de longo prazo da surpresa e, em média, a maximização de uma probabilidade logarítmica de observações é equivalente à minimização da entropia (Shannon) <a href="#fn13" class="footnote-ref" id="fnref13"><sup>13</sup></a></p>
+<p><span class="math inline">\(H[P(y)]=\mathbb{E_{P(y)}[ℑ(y)]}=-\mathbb{E_{P(y)}[\ln P(y)]}\qquad\qquad\qquad (3.1)\)</span></p>
+<p>Garantir que uma pequena proporção de estados sensoriais seja ocupada com alta probabilidade é equivalente a manter uma entropia particular. Essa é uma característica definidora dos sistemas auto-organizados, há muito reconhecida pelas teorias cibernéticas.</p>
+<p>Do ponto de vista de um fisiologista, a minimização de surpresas formaliza a ideia de homeostase. À medida que um valor de sensor sai de sua faixa ideal, mecanismos de feedback negativo entram em ação que revertem esses desvios. De uma perspectiva de controle, podemos interpretar o comportamento ótimo em relação a alguma densidade de probabilidade de estado estacionário desejada. Em outras palavras, se definirmos uma distribuição de resultados preferidos, o comportamento ótimo envolverá a evolução do sistema em direção a essa distribuição e sua manutenção.</p>
+<p>Como vimos no capítulo 2, a energia livre é um limite superior para a surpresa, sugerindo que o comportamento ótimo pode ser obtido minimizando a energia livre em face de flutuações aleatórias. Lembre-se de que a diferença entre energia livre e surpresa é a divergência entre uma probabilidade posterior exata (isto é, a distribuição de estados externos dados estados envoltórios) e uma probabilidade posterior aproximada (isto é, a distribuição sobre estados externos dados estados internos médios). Como tal, o movimento dos estados internos pode ser pensado como minimizando a divergência, o que permite que os estados ativos, em média, minimizem a surpresa que acompanha os estados sensoriais. Em outras palavras, o comportamento ótimo resultante da minimização da energia livre é aquele que é menos surpreendente e segue um caminho de menor Ação <a href="#fn14" class="footnote-ref" id="fnref14"><sup>14</sup></a> do estado atual para o estado desejado – ou seja, o princípio hamiltoniano de menor Ação aplicado ao comportamento .</p>
+<p>A Figura 3.3 mostra um exemplo muito simples de um sistema equipado com um atrator aleatório. Isso é análogo a um termostato, que (no jargão cibernético) tem um único ponto de ajuste e não pode aprender ou planejar. A Inferência Ativa visa usar o mesmo aparato explicativo para cobrir sistemas muito mais complexos e adaptativos. Aqui, a diferença entre sistemas mais simples e mais complexos pode ser reduzida às diferentes formas de seus atratores – de pontos fixos a dinâmicas cada vez mais complexas e itinerantes. A partir dessa perspectiva, pode-se entender os organismos vivos como buscando constantemente um compromisso entre estabilidade excessiva e dispersão excessiva – e a Inferência Ativa visa explicar como esse compromisso é alcançado.</p>
+</div>
+</div>
+<div id="relações-entre-inferência-cognição-e-dinâmica-estocástica" class="section level2 hasAnchor" number="3.4">
+<h2><span class="header-section-number">3.4</span> Relações entre Inferência, Cognição e Dinâmica Estocástica<a href="o-caminho-para-a-inferência-ativa.html#relações-entre-inferência-cognição-e-dinâmica-estocástica" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>O físico E. T. Jaynes ficou famoso por argumentar que a inferência, a teoria da informação e a física estatística são perspectivas diferentes sobre a mesma coisa ( Jaynes 1957). Nas seções anteriores, discutimos como as perspectivas Bayesiana e da física estatística oferecem duas maneiras equivalentes de entender a minimização de surpresas e o comportamento ideal – adicionando efetivamente uma forma de cognição à tríade de Jaynes. Essa equivalência entre várias escolas de pensamento é atraente, mas pode ser confusa para quem não está familiarizado com os respectivos formalismos, onde muitas palavras diferentes são usadas para se referir às mesmas quantidades. Para ajudar a desmistificar isso, nesta seção elaboramos as principais equivalências entre as perspectivas Bayesiana e Física Estatística e suas interpretações cognitivas; veja a tabela 3.1 para um resumo e o quadro 3.2.</p>
+<p><strong>Tabela 3.1</strong> Física estatística, inferência bayesiana e teoria da informação - e suas interpretações cognitivas</p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Física estatística</th>
+<th align="center">Inferência Bayesiana e Teoria da Informação</th>
+<th align="center">Interpretação cognitiva</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">Minimize a energia livre variacional</td>
+<td align="center">Maximize a evidência do modelo (ou probabilidade marginal); minimizar a surpresa (ou auto-informação)</td>
+<td align="center">Percepção e ação</td>
+</tr>
+<tr class="even">
+<td align="center">Minimize a energia livre esperada; Hamiltoniano princípio da menor ação</td>
+<td align="center">Inferir o curso de ação mais provável (ou menos surpreendente)</td>
+<td align="center">Planejamento como inferência</td>
+</tr>
+<tr class="odd">
+<td align="center">Atingir o estado estacionário de não equilíbrio</td>
+<td align="center">Realizar inferência Bayesiana aproximada</td>
+<td align="center">Auto-evidência</td>
+</tr>
+<tr class="even">
+<td align="center">Fluxos de gradiente em funções de energia; gradiente descendente em energia livre</td>
+<td align="center">Ascensão do gradiente na evidência do modelo; descida gradiente na surpresa</td>
+<td align="center">Dinâmica neuronal</td>
+</tr>
+</tbody>
+</table>
+<table>
+<colgroup>
+<col width="100%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Quadro 3.2 Energia livre em física estatística e inferência ativa</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>A noção de energia livre é amplamente utilizada em física estatística para caracterizar (por exemplo) sistemas termodinâmicos. Embora a Inferência Ativa use exatamente as mesmas equações, ela as aplica para caracterizar o estado de crença de um agente (em relação a um modelo generativo). Assim, quando falamos de um agente de Inferência Ativa minimizando sua energia livre (variacional), estamos nos referindo a processos que mudam seu estado de crença, não (por exemplo) as partículas de seu corpo. Para evitar mal-entendidos, usamos o termo energia livre variacional, adotando uma terminologia mais comum em aprendizado de máquina. Outro ponto mais sutil é que o conceito de energia livre é frequentemente usado no contexto da termodinâmica estatística de equilíbrio. A Inferência Ativa tem como alvo organismos vivos – ou sistemas de estado estacionário de não equilíbrio que são abertos – que apresentam trocas contínuas e recíprocas com o meio ambiente. Este é um campo de romance emocionante (Friston 2019a).</td>
+</tr>
+</tbody>
+</table>
+<div id="energia-livre-variacional-evidência-modelo-e-surpresa" class="section level3 hasAnchor" number="3.4.1">
+<h3><span class="header-section-number">3.4.1</span> Energia Livre Variacional, Evidência Modelo e Surpresa<a href="o-caminho-para-a-inferência-ativa.html#energia-livre-variacional-evidência-modelo-e-surpresa" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Uma primeira equivalência importante é entre a maximização da evidência do modelo (ou probabilidade marginal) na inferência Bayesiana e a minimização da energia livre variacional – ambas minimizam a surpresa. Essa equivalência torna-se evidente quando se apela para uma solução aproximada específica para problemas intratáveis de inferência – inferência variacional. A inferência variacional reformula o problema de inferência como um problema de otimização minimizando a energia livre. O mínimo da energia livre é o ponto em que a aproximação da solução exata está no seu melhor. Expressar isso formalmente esclarece as relações entre as três quantidades:</p>
 
 </div>
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="12">
+<li id="fn12"><p>Desequilíbrio aqui se refere à ausência de equilíbrio detalhado. O equilíbrio detalhado é a invariância de um sistema sob reversão no tempo, uma vez que atingiu o estado estacionário. Podemos ver que o sistema da esquerda da figura 3.3 não possui equilíbrio detalhado, pois a trajetória tende a se curvar no sentido anti-horário em torno dos contornos de surpresa. Se fôssemos reproduzir isso ao contrário, o sistema pareceria girar no sentido horário.<a href="o-caminho-para-a-inferência-ativa.html#fnref12" class="footnote-back">↩︎</a></p></li>
+<li id="fn13"><p>Isso não é o mesmo que dizer que sistemas que minimizam surpresas devem minimizar sua entropia. Como vemos na figura 3.3, o sistema não tende a uma distribuição (ponto) infinitamente precisa que minimizaria a entropia, mas mantém uma dispersão consistente ao longo do tempo – limitando a entropia de cima e de baixo.<a href="o-caminho-para-a-inferência-ativa.html#fnref13" class="footnote-back">↩︎</a></p></li>
+<li id="fn14"><p>O A maiúsculo é usado para distinguir Ação como uma integral de caminho de uma Lagrangiana da ação como a dinâmica dos estados ativos de um envoltório de Markov.<a href="o-caminho-para-a-inferência-ativa.html#fnref14" class="footnote-back">↩︎</a></p></li>
+</ol>
 </div>
             </section>
 

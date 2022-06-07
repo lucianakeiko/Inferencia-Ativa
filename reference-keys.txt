@@ -20,3 +20,7 @@ resumo-1
 o-caminho-para-a-inferência-ativa
 introdução-2
 envoltórios-de-markov
+minimização-de-surpresa-e-auto-evidência
+minimização-de-surpresa-como-um-princípio-hamiltoniano-de-menor-ação
+relações-entre-inferência-cognição-e-dinâmica-estocástica
+energia-livre-variacional-evidência-modelo-e-surpresa
