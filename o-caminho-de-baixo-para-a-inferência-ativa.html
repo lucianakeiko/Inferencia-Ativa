@@ -23,7 +23,7 @@
 <meta name="author" content="Thomas Parr, Giovanni Pezzulo, and Karl J. Friston" />
 
 
-<meta name="date" content="2022-06-08" />
+<meta name="date" content="2022-06-09" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -118,7 +118,11 @@
 <li class="chapter" data-level="3.8" data-path="o-caminho-para-a-inferência-ativa.html"><a href="o-caminho-para-a-inferência-ativa.html#inferência-ativa-da-emergência-da-vida-para-a-atuação"><i class="fa fa-check"></i><b>3.8</b> Inferência Ativa, da Emergência da Vida para a atuação</a></li>
 <li class="chapter" data-level="3.9" data-path="o-caminho-para-a-inferência-ativa.html"><a href="o-caminho-para-a-inferência-ativa.html#resumo-2"><i class="fa fa-check"></i><b>3.9</b> Resumo</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="os-modelos-geradores-de-inferência-ativa.html"><a href="os-modelos-geradores-de-inferência-ativa.html"><i class="fa fa-check"></i><b>4</b> Os Modelos Geradores de Inferência Ativa</a></li>
+<li class="chapter" data-level="4" data-path="os-modelos-geradores-de-inferência-ativa.html"><a href="os-modelos-geradores-de-inferência-ativa.html"><i class="fa fa-check"></i><b>4</b> Os Modelos Geradores de Inferência Ativa</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="os-modelos-geradores-de-inferência-ativa.html"><a href="os-modelos-geradores-de-inferência-ativa.html#introdução-3"><i class="fa fa-check"></i><b>4.1</b> Introdução</a></li>
+<li class="chapter" data-level="4.2" data-path="os-modelos-geradores-de-inferência-ativa.html"><a href="os-modelos-geradores-de-inferência-ativa.html#da-inferência-bayesiana-à-energia-livre"><i class="fa fa-check"></i><b>4.2</b> Da Inferência Bayesiana à Energia Livre</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="dicionário.html"><a href="dicionário.html"><i class="fa fa-check"></i>Dicionário</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -283,7 +287,7 @@ A distinção entre o modelo generativo e o processo é importante para contextu
 \begin{matrix}  \underbrace{  D_{KL}{[Q(x)||P(x)]}}\\ Complexidade \end{matrix}
 \begin{matrix}  \underbrace{  -\mathbb{E_{Q(x)}}[\ln P(y|x)]}\\ Acurácia \end{matrix}\]</span>
 <span class="math display">\[=\begin{matrix} \underbrace{ D_{KL}{[Q(x) || P(x|y)]} } \\ Divergência \end{matrix}
-\begin{matrix} \underbrace{-\ln P(x)} \\ Evidência \end{matrix} \text(2.5)
+\begin{matrix} \underbrace{-\ln P(x)} \\ Evidência \end{matrix} \qquad\qquad (2.5)
 \]</span></p>
 <p>A energia livre variacional pode parecer, a primeira vista, um conceito abstrato, mas sua natureza e o papel que desempenha na Inferência Ativa tornam-se aparentes quando decompostas em quantidades que são mais intuitivas e familiares na ciência cognitiva. Cada uma dessas perspectivas sobre energia livre variacional oferece intuições úteis sobre o que significa minimização de energia livre. Esboçamos brevemente essas intuições aqui, pois elas se tornarão importantes quando discutirmos exemplos na segunda parte do livro.</p>
 <p>A primeira linha da equação 2.5 mostra que a minimização em relação a <span class="math inline">\(Q\)</span> requer consistência com o modelo generativo (energia), mantendo também uma alta entropia posterior.<a href="#fn9" class="footnote-ref" id="fnref9"><sup>9</sup></a> A última significa que, na ausência de dados ou crenças prévias precisas (que apenas influenciam o termo de energia), devemos adotar crenças maximamente incertas sobre os estados ocultos do mundo, de acordo com o princípio de entropia máxima de Jaynes ( Jaynes 1957). Simplificando, devemos ser incertos (adotar uma crença de alta entropia ) quando não temos informações. O termo energia herda da física estatística. Especificamente, sob uma distribuição de Boltzmann, a probabilidade logarítmica média de um sistema adotar alguma configuração é inversamente proporcional à energia associada a essa configuração - ou seja, a energia necessária para mover o sistema para essa configuração a partir de uma configuração de linha de base.</p>
