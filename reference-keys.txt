@@ -33,3 +33,4 @@ resumo-2
 os-modelos-geradores-de-inferência-ativa
 introdução-3
 da-inferência-bayesiana-à-energia-livre
+modelos-geradores
