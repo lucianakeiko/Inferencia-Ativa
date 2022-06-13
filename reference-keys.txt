@@ -34,3 +34,5 @@ os-modelos-geradores-de-inferência-ativa
 introdução-3
 da-inferência-bayesiana-à-energia-livre
 modelos-geradores
+inferência-ativa-em-tempo-discreto
+processos-de-decisão-markov-parcialmente-observáveis

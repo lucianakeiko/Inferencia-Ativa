@@ -23,7 +23,7 @@
 <meta name="author" content="Thomas Parr, Giovanni Pezzulo, and Karl J. Friston" />
 
 
-<meta name="date" content="2022-06-11" />
+<meta name="date" content="2022-06-13" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -123,6 +123,10 @@
 <li class="chapter" data-level="4.1" data-path="os-modelos-geradores-de-inferência-ativa.html"><a href="os-modelos-geradores-de-inferência-ativa.html#introdução-3"><i class="fa fa-check"></i><b>4.1</b> Introdução</a></li>
 <li class="chapter" data-level="4.2" data-path="os-modelos-geradores-de-inferência-ativa.html"><a href="os-modelos-geradores-de-inferência-ativa.html#da-inferência-bayesiana-à-energia-livre"><i class="fa fa-check"></i><b>4.2</b> Da Inferência Bayesiana à Energia Livre</a></li>
 <li class="chapter" data-level="4.3" data-path="os-modelos-geradores-de-inferência-ativa.html"><a href="os-modelos-geradores-de-inferência-ativa.html#modelos-geradores"><i class="fa fa-check"></i><b>4.3</b> Modelos Geradores</a></li>
+<li class="chapter" data-level="4.4" data-path="os-modelos-geradores-de-inferência-ativa.html"><a href="os-modelos-geradores-de-inferência-ativa.html#inferência-ativa-em-tempo-discreto"><i class="fa fa-check"></i><b>4.4</b> Inferência ativa em tempo discreto</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="os-modelos-geradores-de-inferência-ativa.html"><a href="os-modelos-geradores-de-inferência-ativa.html#processos-de-decisão-markov-parcialmente-observáveis"><i class="fa fa-check"></i><b>4.4.1</b> Processos de Decisão Markov Parcialmente Observáveis</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="dicionário.html"><a href="dicionário.html"><i class="fa fa-check"></i>Dicionário</a></li>
 <li class="divider"></li>
@@ -195,7 +199,34 @@ A primeira linha da equação 4.4 mostra a energia livre expressa em termos de K
 <p class="caption"><strong>Figura 4.3</strong> Dois modelos generativos dinâmicos (usando a mesma notação gráfica da figura 4.2) aos quais recorreremos no restante deste livro. Topo: Processo de Decisão Markov Parcialmente Observável (POMDP), definido em termos de uma sequência de estados evoluindo ao longo do tempo (indexados pelo subscrito). Abaixo: Modelo de tempo contínuo, do tipo implícito por equações diferenciais estocásticas (com a notação principal indicando derivadas temporais).</p>
 </div>
 <p>O gráfico inferior na figura 4.3 mostra um modelo gráfico muito semelhante, mas expresso em tempo contínuo. Em vez de representar uma trajetória como uma série de estados, este modelo representa a posição atual, velocidade e aceleração (e sucessivas derivadas temporais) de um estado (x). Esses valores (referidos como coordenadas generalizadas de movimento) podem ser usados ​​para reconstruir uma trajetória usando uma expansão em série de Taylor (consulte o apêndice A para uma introdução às aproximações em série de Taylor neste contexto). A relação entre um estado e sua derivada temporal aqui depende de (lentamente variando) causas (v) que desempenham um papel semelhante às políticas acima. Como antes, os estados geram observações ( y). A diferença de notação (s, π, o vs. x, v, y) é usada para enfatizar a diferença entre variáveis ​​categóricas que evoluem em tempo discreto e variáveis ​​contínuas que evoluem em tempo contínuo. Da mesma forma, daqui em diante, usaremos p e q minúsculo para densidades de probabilidade sobre variáveis ​​contínuas e P e Q maiúsculo para distribuições sobre variáveis ​​categóricas. As Seções 4.4 e 4.5 descompactarão esses modelos com mais detalhes e mostrarão como a minimização da energia livre em cada caso leva a um conjunto de equações que descrevem a dinâmica dos processos inferenciais.</p>
+</div>
+<div id="inferência-ativa-em-tempo-discreto" class="section level2 hasAnchor" number="4.4">
+<h2><span class="header-section-number">4.4</span> Inferência ativa em tempo discreto<a href="os-modelos-geradores-de-inferência-ativa.html#inferência-ativa-em-tempo-discreto" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Nesta seção, focamos no modelo de tempo discreto descrito acima. Isso é importante para entender uma série de processos cognitivos que lidam com inferências categóricas e seleção entre hipóteses alternativas. Esse formalismo também facilita o exame do problema clássico de prospecção-aproveitamento e ilustra como a inferência ativa resolve isso.</p>
+<div id="processos-de-decisão-markov-parcialmente-observáveis" class="section level3 hasAnchor" number="4.4.1">
+<h3><span class="header-section-number">4.4.1</span> Processos de Decisão Markov Parcialmente Observáveis<a href="os-modelos-geradores-de-inferência-ativa.html#processos-de-decisão-markov-parcialmente-observáveis" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Conforme mostrado na figura 4.3, um POMDP expressa a evolução ao longo do tempo de uma sequência de estados ocultos que dependem de uma política. Para especificar formalmente esse processo, precisamos levar em conta a forma de cada um dos nós de fator quadrado na figura. Primeiro, descrevemos cada um desses fatores. Em seguida, nós os combinamos para expressar a distribuição conjunta que constitui o modelo generativo.</p>
+<p>Assim como no exemplo simples da regra de Bayes dado no capítulo 2, podemos separar os fatores entre aqueles que representam uma probabilidade e aqueles que se combinam para formar uma a priori. A probabilidade é semelhante à usada anteriormente e expressa a probabilidade de um resultado (observável) dado um estado (oculto). Se os resultados e os estados são variáveis categóricas, a probabilidade é uma distribuição categórica, parametrizada por uma matriz, A:</p>
+<p><span class="math display">\[P(o_\tau|s_\tau)=Cat(A)\]</span>
+<span class="math display">\[A_{ij}=P(o_\tau=i | s_\tau = j) \qquad \qquad (4.5)\]</span>
+A segunda linha aqui detalha o que significa a notação Cat (ou seja, especificação de uma distribuição categórica). Isso representa os nós rotulados como “2” na figura 4.3. A prioridade sobre a sequência (expressa usando o símbolo ~) de estados ocultos depende de duas coisas: a anterior sobre o estado inicial (especificado por um vetor, D) e crenças sobre como o estado em um momento transita para o estado seguinte ( especificado como uma matriz, B):</p>
+<p><span class="math display">\[P(\tilde S|\pi)=P(S_1)\prod P(S_{\tau+1 | S_{\tau}}, \pi)\]</span>
+<span class="math display">\[P(S_1)=Cat(D) \qquad\qquad\qquad\qquad(4.6)\]</span>
+<span class="math display">\[P(S_{\tau+1}|S_\tau,\pi)=Cat(B_{\pi\tau})\]</span></p>
+<p>Juntos, eles representam os “3” nós na figura 4.3. Observe que as transições são condicionalmente dependentes da política escolhida. Assim, podemos interpretar as prioris da equação 4.6, combinadas com a verossimilhança da equação 4.5, como expressando um modelo (π ) de uma sequência comportamental. Para nos permitir selecionar entre esses modelos (ou seja, para formar um plano), precisamos de uma crença prévia sobre a sequência mais provável. Para uma criatura minimizadora de energia livre, uma priorização autoconsistente é que as políticas mais prováveis são aquelas que levarão à menor energia livre esperada (G) no futuro:</p>
+<p><span class="math display">\[P(\pi)=Cat(\pi_0)\]</span>
+<span class="math display">\[\pi_0=\sigma)(-G) \qquad\qquad\qquad\qquad\qquad (4.7)\]</span>
+<span class="math display">\[G_\pi = G(\pi)=-\mathbb{E_\tilde Q[D_{KL}[Q(\tilde s|\tilde o, \pi) || Q(\tilde s| \pi)]]}-\mathbb{E_\tilde Q[\ln P(\tilde o|C)]}\]</span>
+<span class="math display">\[\tilde Q(o_\tau, s_\tau | \pi) \triangleq P(o_\tau |s_\tau)Q(s_\tau | \pi)\]</span></p>
+<p>Esta equação, sendo de fundamental importância para a Inferência Ativa, vale a pena descompactar com mais profundidade. As duas primeiras linhas expressam a probabilidade a priori para cada política, conforme parametrizada por <span class="math inline">\(\pi_0\)</span>, como sendo relacionada à energia livre esperada negativa associada àquela política . A função softmax <span class="math inline">\((\sigma)\)</span> impõe normalização (ou seja, garante que a probabilidade sobre as políticas soma um)</p>
+<p>As duas linhas finais da equação 4.7 expressam a forma da energia livre esperada.</p>
+<p>Observe a semelhança entre isso e a forma funcional da energia livre (equação 4.4) - com uma probabilidade logarítmica de resultados e uma KL-Divergência. A principal diferença aqui é que a expectativa é tomada em relação à densidade preditiva posterior conforme definida pela igualdade final. Essa distribuição expressa uma probabilidade conjunta sobre estados e observações futuras. Fundamentalmente, isso significa que podemos calcular a energia livre esperada no futuro – algo que não poderíamos fazer com a energia livre variacional, que depende de observações (presentes e passadas). Além disso, observe que a distribuição sobre os resultados depende dos parâmetros (C ) e da reversão do sinal da KL-Divergência, que é consequência da expectativa sob a probabilidade preditiva posterior. Este último ponto pode causar alguma confusão, por isso vale a pena explicar explicitamente por que isso acontece. No contexto da energia livre variacional, a KL-Divergência foi a diferença esperada entre a probabilidade logarítmica do posterior aproximado e a probabilidade logarítmica do posterior exato (equação 4.4). O termo análogo na energia livre esperada é a diferença esperada entre o posterior aproximado e o posterior exato que obteríamos com base em toda a trajetória de resultados, usando crenças posteriores atuais como se fossem anteriores. Descompactando isso, temos o seguinte:</p>
+<p><span class="math display">\[\mathbb E[\ln Q(\tilde s | \pi) - \ln Q(\tilde s | \tilde o, \pi) ]\]</span>
+<span class="math display">\[= \mathbb E_{Q(\tilde o|\pi)}[ \mathbb E_{Q(\tilde s | \tilde o,\pi)}[\ln Q(\tilde s|\pi) - \ln Q(\tilde s|\tilde o, \pi) ] ]\]</span></p>
+<p><span class="math display">\[= \mathbb E_{Q(\tilde o|\pi)}[ \mathbb E_{Q(\tilde s | \tilde o,\pi)}[\ln Q(\tilde s|\tilde o,\pi) - \ln Q(\tilde s| \pi) ] ] \qquad\qquad\qquad\qquad (4.8)\]</span></p>
+<p><span class="math display">\[= - \mathbb E_{Q(\tilde o|\pi)}[D_{KL}[Q(\tilde s | \tilde o, \pi) || Q(\tilde s| \pi)]]\]</span></p>
 
+</div>
 </div>
 </div>
 <div class="footnotes">
