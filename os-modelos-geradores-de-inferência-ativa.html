@@ -23,7 +23,7 @@
 <meta name="author" content="Thomas Parr, Giovanni Pezzulo, and Karl J. Friston" />
 
 
-<meta name="date" content="2022-06-13" />
+<meta name="date" content="2022-06-15" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -31,7 +31,7 @@
   
   
 <link rel="prev" href="o-caminho-para-a-inferência-ativa.html"/>
-<link rel="next" href="dicionário.html"/>
+<link rel="next" href="bases-matemáticas.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -128,6 +128,16 @@
 <li class="chapter" data-level="4.4.1" data-path="os-modelos-geradores-de-inferência-ativa.html"><a href="os-modelos-geradores-de-inferência-ativa.html#processos-de-decisão-markov-parcialmente-observáveis"><i class="fa fa-check"></i><b>4.4.1</b> Processos de Decisão Markov Parcialmente Observáveis</a></li>
 </ul></li>
 </ul></li>
+<li class="appendix"><span><b>Apêndice</b></span></li>
+<li class="chapter" data-level="A" data-path="bases-matemáticas.html"><a href="bases-matemáticas.html"><i class="fa fa-check"></i><b>A</b> Bases Matemáticas</a>
+<ul>
+<li class="chapter" data-level="A.1" data-path="bases-matemáticas.html"><a href="bases-matemáticas.html#introdução-4"><i class="fa fa-check"></i><b>A.1</b> Introdução</a></li>
+<li class="chapter" data-level="A.2" data-path="bases-matemáticas.html"><a href="bases-matemáticas.html#álgebra-linear"><i class="fa fa-check"></i><b>A.2</b> Álgebra Linear</a>
+<ul>
+<li class="chapter" data-level="A.2.1" data-path="bases-matemáticas.html"><a href="bases-matemáticas.html#o-básico"><i class="fa fa-check"></i><b>A.2.1</b> O básico</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="B" data-path="as-equações-da-inferência-ativa.html"><a href="as-equações-da-inferência-ativa.html"><i class="fa fa-check"></i><b>B</b> As equações da inferência ativa</a></li>
 <li class="chapter" data-level="" data-path="dicionário.html"><a href="dicionário.html"><i class="fa fa-check"></i>Dicionário</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -225,10 +235,36 @@ A segunda linha aqui detalha o que significa a notação Cat (ou seja, especific
 <span class="math display">\[= \mathbb E_{Q(\tilde o|\pi)}[ \mathbb E_{Q(\tilde s | \tilde o,\pi)}[\ln Q(\tilde s|\pi) - \ln Q(\tilde s|\tilde o, \pi) ] ]\]</span></p>
 <p><span class="math display">\[= \mathbb E_{Q(\tilde o|\pi)}[ \mathbb E_{Q(\tilde s | \tilde o,\pi)}[\ln Q(\tilde s|\tilde o,\pi) - \ln Q(\tilde s| \pi) ] ] \qquad\qquad\qquad\qquad (4.8)\]</span></p>
 <p><span class="math display">\[= - \mathbb E_{Q(\tilde o|\pi)}[D_{KL}[Q(\tilde s | \tilde o, \pi) || Q(\tilde s| \pi)]]\]</span></p>
+<p>Aqui vemos que a ordem em que as expectativas devem ser tomadas é importante.</p>
+<p>Ele provoca uma inversão de sinal em relação ao termo análogo na energia livre variacional. Isso subscreve uma diferença importante entre as duas quantidades. A energia livre esperada é minimizada selecionando aquelas observações que causam uma grande mudança nas crenças, em contraste com a energia livre variacional que é minimizada quando as observações obedecem às crenças atuais. Essa é a diferença entre otimizar as crenças em relação aos dados que já foram coletados (minimização variacional de energia livre) e selecionar os dados que melhor otimizarão as crenças (minimização de energia livre esperada).</p>
+<p>Isso reitera que a Inferência Ativa usa dois construtos, energia livre variacional (F ) e energia livre esperada (G), que são matematicamente relacionados, mas desempenham papéis distintos e complementares. A energia livre variacional é a quantidade primária que é minimizada ao longo do tempo. Ele é otimizado em relação a um modelo generativo, que pode incluir políticas (ou sequências de ações). Assim como em todos os outros estados ocultos, o agente precisa atribuir uma probabilidade anterior às políticas - porque as políticas são apenas mais uma variável aleatória no modelo generativo. A Inferência Ativa usa uma priori que é (vagamente falando) equivalente à crença de que se minimizará a energia livre no futuro: ou seja, a energia livre esperada. Em outras palavras, a energia livre esperada fornece uma prioridade sobre as políticas e, portanto, é um pré-requisito para minimizar a energia livre variacional.</p>
+<p>No capítulo 2 vimos que, assim como a energia livre variacional, a energia livre esperada pode ser rearranjada de várias maneiras para revelar várias interpretações. Aqui, nos concentramos em uma interpretação como a diferença entre o risco e a ambiguidade associada a uma política. Isso é equivalente à expressão na equação 4.7:</p>
+<p>$$$$</p>
+<p><span class="math display">\[G(\pi)=\begin{matrix} \underbrace{-\mathbb{E_\tilde Q}[D_{KL}[Q(\tilde S | \tilde o, \pi)||Q(\tilde S | \pi)]]} \\ ganho\;de\;informação  \end{matrix} - \begin{matrix} \underbrace{-\mathbb{E_\tilde Q}[\ln P(\tilde o | C)]} \\ valor\;pragmático \end{matrix} \qquad \qquad \qquad (4.9)\]</span></p>
+<p><span class="math display">\[\begin{matrix} \underbrace{\mathbb{E_\tilde Q}[H[P(\tilde o|\tilde s)]]} \\ ambiguidade\;esperada  \end{matrix} +  \begin{matrix} \underbrace{D_{KL}[Q(\tilde o | \pi) || P(\tilde o | C)]} \\ risco \end{matrix}\]</span></p>
+<p>Lembre-se do capítulo 2 que o primeiro deles expressa o trade-off entre buscar novas informações (ou seja, prospecção) e buscar observações preferidas (ou seja, aproveitamento). Ao minimizar a energia livre esperada, o equilíbrio relativo entre esses termos determina se o comportamento é predominantemente exploratório ou explorador. Observe que o valor pragmático surge como uma crença prévia sobre observações, onde os parâmetros C dessa distribuição podem ser escolhidos para refletir o tipo de sistema que estamos interessados em caracterizar (em termos de suas características ou estados de resultado preferidos). Seguindo a segunda linha da equação 4.9, podemos reescrever a equação 4.7 na forma algébrica linear da seguinte forma:</p>
+<p><span class="math display">\[\pi_o = \sigma(-G)\]</span>
+<span class="math display">\[G_\pi = H\cdot  s_{\pi\tau} + o_{\pi\tau} \cdot \varsigma_{\pi\tau}\]</span></p>
+<p><span class="math display">\[\varsigma_{\pi\tau} = \ln o_{\pi\tau} - \ln C_\tau \]</span>
+<span class="math display">\[H = -diag(A \cdot \ln A)\]</span></p>
+<p><span class="math display">\[P(o_\tau | C) = Cat(C_\tau) \qquad \qquad (4.10)\]</span></p>
+<p><span class="math display">\[Q(o_\tau | \pi) = Cat(o_{\pi\tau}) , o_{\pi\tau} = As_{\pi\tau} \]</span></p>
+<p><span class="math display">\[Q(S_\tau|\pi)=Cat(s_{\pi\tau})\]</span>
+<span class="math display">\[Q(S_\tau)=Cat(S_\tau) , s_\tau = \sum_\pi \pi_\pi s_{\pi\tau} \]</span>
+A primeira linha da equação 4.10 usa um operador softmax (exponencial normalizado) para construir uma distribuição de probabilidade (parametrizada com estatísticas suficientes <span class="math inline">\(π_0\)</span> que soma um do vetor de energia livre esperado. As linhas dois a quatro expressam os componentes da energia livre esperada em notação algébrica linear. A quinta linha mostra que a crença prévia sobre as observações é uma distribuição categórica (cujas estatísticas suficientes são dadas no vetor C). A sexta a oitava linhas especificam a relação entre as quantidades algébricas lineares e as distribuições de probabilidade associadas. Concluída a especificação do modelo generativo, podemos agora expressar a energia livre em função das variáveis acima:</p>
+<p><span class="math display">\[F = \pi \cdot F \]</span>
+<span class="math display">\[F_\pi = \sum_\tau F_{\pi\tau} \qquad\qquad\qquad (4.11)\]</span>
+<span class="math display">\[F_{\pi\tau}=s_{\pi\tau} \cdot (\ln s_{\pi \tau} - ln A \cdot o_\tau - \ln B_{\pi\tau}s_{\pi\tau-1})\]</span>
+A decomposição disso em uma soma ao longo do tempo é devido à aproximação implícita de campo médio que assume que podemos fatorar o posterior aproximado em um produto de fatores:</p>
+<p><span class="math display">\[Q(\tilde s | \pi) = \prod_\tau Q(s_\tau|\pi)\]</span>
+Na forma logarítmica, isso se torna uma soma, assim como na equação 4.11. Essa fatoração é uma das muitas possibilidades na inferência variacional – e representa a opção mais simples. Na prática, isso é muitas vezes ligeiramente matizado, conforme detalhado no apêndice B.</p>
 
 </div>
 </div>
 </div>
+
+
+
 <div class="footnotes">
 <hr />
 <ol start="16">
@@ -243,7 +279,7 @@ A segunda linha aqui detalha o que significa a notação Cat (ou seja, especific
         </div>
       </div>
 <a href="o-caminho-para-a-inferência-ativa.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="dicionário.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="bases-matemáticas.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
