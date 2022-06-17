@@ -23,7 +23,7 @@
 <meta name="author" content="Thomas Parr, Giovanni Pezzulo, and Karl J. Friston" />
 
 
-<meta name="date" content="2022-06-15" />
+<meta name="date" content="2022-06-17" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -126,7 +126,9 @@
 <li class="chapter" data-level="4.4" data-path="os-modelos-geradores-de-inferência-ativa.html"><a href="os-modelos-geradores-de-inferência-ativa.html#inferência-ativa-em-tempo-discreto"><i class="fa fa-check"></i><b>4.4</b> Inferência ativa em tempo discreto</a>
 <ul>
 <li class="chapter" data-level="4.4.1" data-path="os-modelos-geradores-de-inferência-ativa.html"><a href="os-modelos-geradores-de-inferência-ativa.html#processos-de-decisão-markov-parcialmente-observáveis"><i class="fa fa-check"></i><b>4.4.1</b> Processos de Decisão Markov Parcialmente Observáveis</a></li>
+<li class="chapter" data-level="4.4.2" data-path="os-modelos-geradores-de-inferência-ativa.html"><a href="os-modelos-geradores-de-inferência-ativa.html#inferência-ativa-em-um-pomdp"><i class="fa fa-check"></i><b>4.4.2</b> Inferência ativa em um POMDP</a></li>
 </ul></li>
+<li class="chapter" data-level="4.5" data-path="os-modelos-geradores-de-inferência-ativa.html"><a href="os-modelos-geradores-de-inferência-ativa.html#inferência-ativa-em-tempo-contínuo"><i class="fa fa-check"></i><b>4.5</b> Inferência Ativa em Tempo Contínuo</a></li>
 </ul></li>
 <li class="appendix"><span><b>Apêndice</b></span></li>
 <li class="chapter" data-level="A" data-path="bases-matemáticas.html"><a href="bases-matemáticas.html"><i class="fa fa-check"></i><b>A</b> Bases Matemáticas</a>
@@ -135,6 +137,7 @@
 <li class="chapter" data-level="A.2" data-path="bases-matemáticas.html"><a href="bases-matemáticas.html#álgebra-linear"><i class="fa fa-check"></i><b>A.2</b> Álgebra Linear</a>
 <ul>
 <li class="chapter" data-level="A.2.1" data-path="bases-matemáticas.html"><a href="bases-matemáticas.html#o-básico"><i class="fa fa-check"></i><b>A.2.1</b> O básico</a></li>
+<li class="chapter" data-level="A.2.2" data-path="bases-matemáticas.html"><a href="bases-matemáticas.html#derivadas"><i class="fa fa-check"></i><b>A.2.2</b> Derivadas</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="B" data-path="as-equações-da-inferência-ativa.html"><a href="as-equações-da-inferência-ativa.html"><i class="fa fa-check"></i><b>B</b> As equações da inferência ativa</a></li>
@@ -225,7 +228,7 @@ A segunda linha aqui detalha o que significa a notação Cat (ou seja, especific
 <span class="math display">\[P(S_{\tau+1}|S_\tau,\pi)=Cat(B_{\pi\tau})\]</span></p>
 <p>Juntos, eles representam os “3” nós na figura 4.3. Observe que as transições são condicionalmente dependentes da política escolhida. Assim, podemos interpretar as prioris da equação 4.6, combinadas com a verossimilhança da equação 4.5, como expressando um modelo (π ) de uma sequência comportamental. Para nos permitir selecionar entre esses modelos (ou seja, para formar um plano), precisamos de uma crença prévia sobre a sequência mais provável. Para uma criatura minimizadora de energia livre, uma priorização autoconsistente é que as políticas mais prováveis são aquelas que levarão à menor energia livre esperada (G) no futuro:</p>
 <p><span class="math display">\[P(\pi)=Cat(\pi_0)\]</span>
-<span class="math display">\[\pi_0=\sigma)(-G) \qquad\qquad\qquad\qquad\qquad (4.7)\]</span>
+<span class="math display">\[\pi_0=\sigma(-G) \qquad\qquad\qquad\qquad\qquad (4.7)\]</span>
 <span class="math display">\[G_\pi = G(\pi)=-\mathbb{E_\tilde Q[D_{KL}[Q(\tilde s|\tilde o, \pi) || Q(\tilde s| \pi)]]}-\mathbb{E_\tilde Q[\ln P(\tilde o|C)]}\]</span>
 <span class="math display">\[\tilde Q(o_\tau, s_\tau | \pi) \triangleq P(o_\tau |s_\tau)Q(s_\tau | \pi)\]</span></p>
 <p>Esta equação, sendo de fundamental importância para a Inferência Ativa, vale a pena descompactar com mais profundidade. As duas primeiras linhas expressam a probabilidade a priori para cada política, conforme parametrizada por <span class="math inline">\(\pi_0\)</span>, como sendo relacionada à energia livre esperada negativa associada àquela política . A função softmax <span class="math inline">\((\sigma)\)</span> impõe normalização (ou seja, garante que a probabilidade sobre as políticas soma um)</p>
@@ -258,8 +261,43 @@ A primeira linha da equação 4.10 usa um operador softmax (exponencial normaliz
 A decomposição disso em uma soma ao longo do tempo é devido à aproximação implícita de campo médio que assume que podemos fatorar o posterior aproximado em um produto de fatores:</p>
 <p><span class="math display">\[Q(\tilde s | \pi) = \prod_\tau Q(s_\tau|\pi)\]</span>
 Na forma logarítmica, isso se torna uma soma, assim como na equação 4.11. Essa fatoração é uma das muitas possibilidades na inferência variacional – e representa a opção mais simples. Na prática, isso é muitas vezes ligeiramente matizado, conforme detalhado no apêndice B.</p>
-
 </div>
+<div id="inferência-ativa-em-um-pomdp" class="section level3 hasAnchor" number="4.4.2">
+<h3><span class="header-section-number">4.4.2</span> Inferência ativa em um POMDP<a href="os-modelos-geradores-de-inferência-ativa.html#inferência-ativa-em-um-pomdp" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Até agora, definimos os quatro ingredientes principais para um modelo generativo de tempo discreto. Estas são a probabilidade <span class="math inline">\((A)\)</span>, probabilidades de transição <span class="math inline">\((B)\)</span>, crenças anteriores sobre observações <span class="math inline">\((C)\)</span> e crenças anteriores sobre o estado inicial <span class="math inline">\((D)\)</span>. Uma vez que essas distribuições de probabilidade são especificadas, um esquema genérico de passagem de mensagens pode ser empregado para minimizar a energia livre e resolver o POMDP. Para fazer inferências sobre estados ocultos sob uma determinada política, definimos a taxa de variação de uma variável auxiliar <span class="math inline">\((v)\)</span>, que representa o log posterior <span class="math inline">\((s)\)</span>, igual ao gradiente de energia livre negativo. Uma função softmax (exponencial normalizada) é então usada para calcular <span class="math inline">\(s\)</span> de <span class="math inline">\(v\)</span>.</p>
+<p><span class="math display">\[s_{\pi\tau}=\sigma(v_{\pi\tau})\]</span></p>
+<p><span class="math display">\[\dot v_{\pi\tau} =\epsilon_{\pi\tau} \triangleq - \nabla F_{\pi\tau} \qquad (4.13)\]</span></p>
+<p><span class="math display">\[ =\ln A \cdot o_\tau + ln B_{\pi\tau}s_{\pi\tau-1} + \ln B_{\pi\tau+1} \cdot s_{\pi\tau-1} - \ln s_{\pi\tau}  \]</span></p>
+<p>A Equação 4.13 pode ser considerada como um exemplo de passagem de mensagens variacional (ver caixa 4.1). Para atualizar crenças sobre políticas, encontramos a posterior que minimiza a energia livre:</p>
+<p><span class="math display">\[ \nabla_\pi F = 0 \Longleftrightarrow  \qquad \qquad (4.14)\]</span></p>
+<p><span class="math display">\[ \pi = \sigma(-G-F)\]</span></p>
+<p>Para a forma mais simples de POMDP, as equações 4.13 e 4.14 podem ser usadas para resolver um problema de Inferência Ativa para qualquer conjunto de matrizes de probabilidade; estes podem ser pensados como descrevendo percepção e planejamento, respectivamente. Vamos destrinchar isso com mais detalhes na segunda parte do livro, onde forneceremos exemplos trabalhados de Inferência Ativa para percepção e planejamento (e outras funções cognitivas).</p>
+<p>As representações gráficas da Figura 4.4 das equações 4.10, 4.13 e 4.14 sugerem possíveis implementações neuronais de minimização de energia livre no cérebro – se interpretarmos nós como populações neuronais, bordas como sinapses e mensagens como trocas sinápticas. Em capítulos posteriores, consideraremos a extensão disso para espaços de estados fatorados, modelos temporais profundos e a otimização dos parâmetros do próprio modelo generativo (aprendizagem).</p>
+</div>
+</div>
+<div id="inferência-ativa-em-tempo-contínuo" class="section level2 hasAnchor" number="4.5">
+<h2><span class="header-section-number">4.5</span> Inferência Ativa em Tempo Contínuo<a href="os-modelos-geradores-de-inferência-ativa.html#inferência-ativa-em-tempo-contínuo" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Na seção anterior, tratamos da forma que a Inferência Ativa assume sob uma escolha particular de modelo generativo. Esses POMDPs são uma maneira útil de articular uma série de problemas de inferência, incluindo aqueles que subscrevem o planejamento e a tomada de decisões. No entanto, quando se trata de interagir com um ambiente real, os modelos descritos em tempo discreto com variáveis categóricas ficam aquém. Isso ocorre porque as entradas sensoriais e as saídas motoras são variáveis em constante evolução. Para explicar isso, agora nos voltamos para um tipo diferente de modelo generativo. Aplicamos exatamente a mesma ideia, um gradiente descendente na energia livre variacional, a esses modelos para encontrar os esquemas de passagem de mensagens análogos.</p>
+<table>
+<colgroup>
+<col width="100%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Quadro 4.1 Transmissão e inferência de mensagens</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Envoltórios de Markov</strong> <br> Encontramos o conceito de um envoltório de Markov no capítulo 3. No entanto, vale a pena revisar brevemente a ideia aqui. Refere-se a um sistema de múltiplas variáveis que interagem. Um envoltório de Markov para uma determinada variável compreende um subconjunto daquelas que interagem com ela. Se sabemos tudo sobre esse subconjunto, o conhecimento de qualquer coisa fora desse subconjunto não aumenta nosso conhecimento da variável de interesse. A relevância aqui é que podemos fazer inferências sobre uma variável em um modelo gráfico com base em informações locais sobre seu envoltório de Markov. O envoltório de uma variável <span class="math inline">\(x\)</span> são aquelas variáveis que causam <span class="math inline">\(x\)</span> ( pais, <span class="math inline">\(ρ(x)\)</span>), as variáveis que são causadas por <span class="math inline">\(x\)</span> (filhos, <span class="math inline">\(κ (x)\)</span>) e os pais dos filhos de <span class="math inline">\(x\)</span>. Usando esta notação, dois dos esquemas Bayesianos de passagem de mensagens mais comuns usados para inferência aproximada são definidos da seguinte forma:<br><strong>Passagem de mensagem variacional</strong><span class="math display">\[ \ln Q(x)=\mathbb{E}_{Q(\rho(x))}[\ln P(x|\rho(x))]+\mathbb{E}_{\frac {Q(\kappa (x))Q(\rho(\kappa (x)))}{Q(x)}}[\ln P( \kappa (x) | \rho(\kappa (x)))]\]</span>Isso envolve mensagens de todos os constituintes do envoltório de Markov de <span class="math inline">\(x\)</span>, incluindo os pais (através da probabilidade condicional de <span class="math inline">\(x\)</span> dado seus pais) e os filhos. O último depende da probabilidade condicional dos filhos de <span class="math inline">\(x\)</span> dados todos os seus pais – que incluem <span class="math inline">\(x\)</span>. Observe que a expectativa inclui os filhos e os pais das crianças. Como os pais das crianças incluem <span class="math inline">\(x\)</span>, dividimos por <span class="math inline">\(Q(x)\)</span> para garantir que a expectativa inclua apenas o envoltório.<br><strong>Propagação de crenças</strong><span class="math display">\[\ln Q(x) = \ln \mu_\kappa(x) + \ln \mu_\rho(x) \]</span> <span class="math display">\[\mu_\kappa(x)=\mathbb{E_{\frac{\mu_\kappa(\kappa(x))\mu_\rho(\kappa(x))}{\mu_x(\kappa(x))}}}[P( \kappa(x) | \rho(\kappa(x)) )]\]</span><span class="math display">\[\mu_\rho(x)=\mathbb{E_{\frac{\mu_\rho(\rho(x))\mu_\kappa(\rho(x))}{\mu_x(\rho(x))}}}[P( x | \rho(x) )]\]</span>Isso tem basicamente a mesma estrutura que a passagem de mensagens variacional, mas usa uma definição recursiva de mensagens tal que cada mensagem  <span class="math inline">\(μ_a(b)\)</span> sendo a mensagem de <span class="math inline">\(a\)</span> para <span class="math inline">\(b\)</span> ) depende de outras mensagens (as mensagens para <span class="math inline">\(a\)</span>). Há um aspecto direcional nisso, de modo que a mensagem de <span class="math inline">\(a\)</span> para <span class="math inline">\(b\)</span> depende de todas as mensagens para <span class="math inline">\(a\)</span>, exceto a de <span class="math inline">\(b\)</span> (daí a divisão nas expectativas). NB: O uso ligeiramente fora do padrão do operador de expectativa aqui nos permite (1) cobrir variáveis discretas e contínuas e (2) destacar as semelhança entre a passagem de mensagens variacional e a propagação de crenças.</td>
+</tr>
+</tbody>
+</table>
+<div class="figure">
+<img src="images/Figura_4_4.png" alt="" />
+<p class="caption"><strong>Figura 4.4</strong> Passagem de mensagens bayesianas. Direita: Dependências entre diferentes variáveis ​​no esquema de atualização de crenças descrito no texto principal. Intuitivamente, as crenças atuais sobre os estados (sob cada política) em cada momento são comparadas com aquelas que seriam previstas dadas as crenças sobre os estados em outros momentos (1) e os resultados atuais para calcular os erros de previsão. Esses erros então impulsionam a atualização dessas crenças (2); dadas crenças sobre estados sob cada política, podemos então calcular os gradientes da energia livre esperada (3). Estes são combinados com os resultados previstos em cada política (omitidos da figura) para calcular as crenças sobre as políticas (4). Usando uma média do modelo Bayesiano, podemos então calcular as crenças posteriores sobre os estados calculados sobre as políticas (5). Este resumo de alto nível da passagem de mensagens omite algumas conexões intermediárias que podem ser incluídas (por exemplo, a conexão (4) pode ser descompactada para incluir explicitamente o cálculo da energia livre esperada). Esquerda: Este esquema pode ser expandido hierarquicamente (reduzindo ao longo de etapas de tempo e políticas para simplificar). A ideia-chave é que uma rede de nível superior pode prever os estados e políticas no nível inferior e usá-los para fazer inferências sobre o contexto em que ocorrem. Descompactaremos essa ideia mais adiante no capítulo 7.</p>
+</div>
+
 </div>
 </div>
 

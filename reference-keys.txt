@@ -36,8 +36,11 @@ da-inferência-bayesiana-à-energia-livre
 modelos-geradores
 inferência-ativa-em-tempo-discreto
 processos-de-decisão-markov-parcialmente-observáveis
+inferência-ativa-em-um-pomdp
+inferência-ativa-em-tempo-contínuo
 bases-matemáticas
 introdução-4
 álgebra-linear
 o-básico
+derivadas
 as-equações-da-inferência-ativa
