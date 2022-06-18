@@ -23,7 +23,7 @@
 <meta name="author" content="Thomas Parr, Giovanni Pezzulo, and Karl J. Friston" />
 
 
-<meta name="date" content="2022-06-17" />
+<meta name="date" content="2022-06-18" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -128,7 +128,10 @@
 <li class="chapter" data-level="4.4.1" data-path="os-modelos-geradores-de-inferência-ativa.html"><a href="os-modelos-geradores-de-inferência-ativa.html#processos-de-decisão-markov-parcialmente-observáveis"><i class="fa fa-check"></i><b>4.4.1</b> Processos de Decisão Markov Parcialmente Observáveis</a></li>
 <li class="chapter" data-level="4.4.2" data-path="os-modelos-geradores-de-inferência-ativa.html"><a href="os-modelos-geradores-de-inferência-ativa.html#inferência-ativa-em-um-pomdp"><i class="fa fa-check"></i><b>4.4.2</b> Inferência ativa em um POMDP</a></li>
 </ul></li>
-<li class="chapter" data-level="4.5" data-path="os-modelos-geradores-de-inferência-ativa.html"><a href="os-modelos-geradores-de-inferência-ativa.html#inferência-ativa-em-tempo-contínuo"><i class="fa fa-check"></i><b>4.5</b> Inferência Ativa em Tempo Contínuo</a></li>
+<li class="chapter" data-level="4.5" data-path="os-modelos-geradores-de-inferência-ativa.html"><a href="os-modelos-geradores-de-inferência-ativa.html#inferência-ativa-em-tempo-contínuo"><i class="fa fa-check"></i><b>4.5</b> Inferência Ativa em Tempo Contínuo</a>
+<ul>
+<li class="chapter" data-level="4.5.1" data-path="os-modelos-geradores-de-inferência-ativa.html"><a href="os-modelos-geradores-de-inferência-ativa.html#um-modelo-generativo-para-codificação-preditiva"><i class="fa fa-check"></i><b>4.5.1</b> Um modelo generativo para codificação preditiva</a></li>
+</ul></li>
 </ul></li>
 <li class="appendix"><span><b>Apêndice</b></span></li>
 <li class="chapter" data-level="A" data-path="bases-matemáticas.html"><a href="bases-matemáticas.html"><i class="fa fa-check"></i><b>A</b> Bases Matemáticas</a>
@@ -297,7 +300,53 @@ Na forma logarítmica, isso se torna uma soma, assim como na equação 4.11. Ess
 <img src="images/Figura_4_4.png" alt="" />
 <p class="caption"><strong>Figura 4.4</strong> Passagem de mensagens bayesianas. Direita: Dependências entre diferentes variáveis ​​no esquema de atualização de crenças descrito no texto principal. Intuitivamente, as crenças atuais sobre os estados (sob cada política) em cada momento são comparadas com aquelas que seriam previstas dadas as crenças sobre os estados em outros momentos (1) e os resultados atuais para calcular os erros de previsão. Esses erros então impulsionam a atualização dessas crenças (2); dadas crenças sobre estados sob cada política, podemos então calcular os gradientes da energia livre esperada (3). Estes são combinados com os resultados previstos em cada política (omitidos da figura) para calcular as crenças sobre as políticas (4). Usando uma média do modelo Bayesiano, podemos então calcular as crenças posteriores sobre os estados calculados sobre as políticas (5). Este resumo de alto nível da passagem de mensagens omite algumas conexões intermediárias que podem ser incluídas (por exemplo, a conexão (4) pode ser descompactada para incluir explicitamente o cálculo da energia livre esperada). Esquerda: Este esquema pode ser expandido hierarquicamente (reduzindo ao longo de etapas de tempo e políticas para simplificar). A ideia-chave é que uma rede de nível superior pode prever os estados e políticas no nível inferior e usá-los para fazer inferências sobre o contexto em que ocorrem. Descompactaremos essa ideia mais adiante no capítulo 7.</p>
 </div>
+<div id="um-modelo-generativo-para-codificação-preditiva" class="section level3 hasAnchor" number="4.5.1">
+<h3><span class="header-section-number">4.5.1</span> Um modelo generativo para codificação preditiva<a href="os-modelos-geradores-de-inferência-ativa.html#um-modelo-generativo-para-codificação-preditiva" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Para motivar a forma de modelo generativo usado para estados contínuos, começamos com o seguinte par de equações:</p>
+<p><span class="math display">\[ \begin{matrix} \dot x = f(x,v) + \omega_x \\
+y = g (x,v) + \omega_y  \end{matrix}  \qquad\qquad\qquad\qquad (4.15) \]</span>
+A primeira delas expressa a evolução de um estado oculto ao longo do tempo, segundo uma função determinística <span class="math inline">\(( f (x, v))\)</span> e flutuações estocásticas <span class="math inline">\((ω)\)</span>. A segunda equação expressa a maneira pela qual os dados são gerados a partir do estado oculto. Em cada caso, as flutuações são assumidas normalmente distribuídas, dando as seguintes densidades de probabilidade para a dinâmica e a probabilidade:</p>
+<p><span class="math display">\[ \begin{matrix}  
+\rho(\dot x | x,v) = N(f(x,v, \prod_x)) \\
+\rho(y | x,v) = N(g(x,v, \prod_y))
+\end{matrix}  \qquad\qquad\qquad\qquad (4.16) \]</span></p>
+<p>Os termos de precisão <span class="math inline">\((\prod)\)</span> são a covariância inversa das flutuações. Essas duas equações formam o modelo generativo que escreve os filtros de Kalman-Bucy na engenharia. No entanto, esquemas desse tipo são limitados pela suposição de flutuações não correlacionadas ao longo do tempo (ou seja, suposições de Wiener). Isso é inadequado para inferência em sistemas biológicos, onde as próprias flutuações são geradas por sistemas dinâmicos e têm um grau de suavidade. Podemos explicar isso considerando não apenas a taxa de mudança do estado oculto e o valor atual dos dados, mas também suas velocidades, acelerações e derivadas temporais subsequentes – isto é, coordenadas generalizadas de movimento (Friston, Stephan et al. 2010; ver quadro 4.2):</p>
+<table>
+<colgroup>
+<col width="100%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Quadro 4.2 Coordenadas generalizadas de movimento</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Figura 4.5</strong> Para representar uma trajetória em tempo contínuo, as coordenadas generalizadas de movimento fornecem uma parametrização simples. Isso é baseado em uma expansão polinomial (série de Taylor) em torno do tempo presente para fornecer uma função que nos permite extrapolar para o passado recente e futuro próximo. Os gráficos na figura 4.5 mostram uma trajetória em algum espaço <span class="math inline">\((x)\)</span> ao longo do tempo <span class="math inline">\((\tau)\)</span> como uma linha contínua. Da esquerda para a direita, mostram a trajetória representada em coordenadas generalizadas de movimento com uma, duas e três coordenadas (derivadas temporais sucessivas de x). Esta é a linha tracejada. A expansão aqui é em torno do ponto de tempo inicial. Com cada coordenada generalizada sucessiva, obtemos uma aproximação mais precisa da trajetória para o futuro proximal. Para a maioria das aplicações, cerca de seis coordenadas generalizadas são suficientes.<img src="images/Figura_4_5.png" alt="Figura 4.5" /></td>
+</tr>
+</tbody>
+</table>
+<p><span class="math display">\[ \begin{matrix}  
+\dot x = f(x,v) + \omega_x &amp; \qquad \qquad y = g(x,v) + \omega_y \\
+\dot x&#39; = f&#39;(x&#39;,v&#39;) + \omega&#39;_x &amp; \qquad \qquad y&#39; = g&#39;(x&#39;,v&#39;) + \omega&#39;_y \\
+\dot x&#39;&#39; = f&#39;&#39;(x&#39;&#39;,v&#39;&#39;) + \omega&#39;&#39;_x &amp; \qquad \qquad y&#39;&#39; = g&#39;&#39;(x&#39;&#39;,v&#39;&#39;) + \omega&#39;&#39;_y \\
+\vdots &amp; \vdots \\
+\dot x^{[i]} = f^{[i]}(x^{[i]},v^{[i]}) + \omega^{[i]}_x &amp; \qquad \qquad y^{[i]} = g^{[i]}(x^{[i]},v^{[i]}) + \omega^{[i]}_y \\
+\vdots &amp; \vdots
+\end{matrix}  \qquad\qquad\qquad\qquad (4.17) \]</span>
+Essas coordenadas generalizadas podem ser resumidas de forma mais sucinta ao representar uma trajetória (novamente usando o símbolo ~) como um vetor com elementos correspondentes às derivadas sucessivas acima:</p>
+<p><span class="math display">\[\left . \begin{matrix} D\tilde x = \tilde f(\tilde x,\tilde v) + \tilde \omega_x \\ \tilde y = \tilde g(\tilde x,\tilde v) + \tilde \omega_y \end{matrix} \right \} \Longrightarrow \begin{matrix} p(\tilde x |\tilde v) = N(D \cdot \tilde f, \tilde \prod_x) \\ p(\tilde y |\tilde x,\tilde v) = N( \tilde g, \tilde \prod_y) \end{matrix} \qquad (4.18) \]</span>
+Na equação 4.18, <span class="math inline">\(D\)</span> é uma matriz com uns acima da diagonal principal e zeros em outros lugares. Isso efetivamente desloca todos os elementos do vetor para cima e pode ser considerado um operador derivativo. As matrizes de precisão generalizadas podem ser construídas com base na suavidade que assumimos para as flutuações, conforme detalhado no apêndice B. Equipado com uma a priori sobre a causa oculta <span class="math inline">\((v)\)</span>, cuja relevância ficará mais clara a seguir, isso nos permite escrever as energia livre para este modelo generativo:</p>
+<p><span class="math display">\[ \begin{matrix}
+F[\mu,y] &amp; = &amp; -\ln p(\tilde y, \tilde \mu_x , \tilde \mu_v) \\
+  &amp; = &amp; \frac{1}{2}\tilde \epsilon \cdot \tilde \prod \tilde \epsilon \\
+  &amp; = &amp; \frac{1}{2}(\tilde \epsilon_y \cdot \tilde \prod_y \tilde \epsilon_y + \tilde \epsilon_x \cdot \tilde \prod_x \tilde \epsilon_x + \tilde \epsilon_v \cdot \tilde \prod_v \tilde \epsilon_v ) \\
+\tilde \epsilon &amp; = &amp; \epsilon \\
+\prod &amp; = &amp; prod
+\end{matrix}  \qquad \qquad \qquad (4.19)\]</span></p>
+<p><span class="math display">\[\begin{matrix} a \\ b \\ c \end{matrix}\]</span></p>
 
+</div>
 </div>
 </div>
 

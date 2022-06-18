@@ -38,6 +38,7 @@ inferência-ativa-em-tempo-discreto
 processos-de-decisão-markov-parcialmente-observáveis
 inferência-ativa-em-um-pomdp
 inferência-ativa-em-tempo-contínuo
+um-modelo-generativo-para-codificação-preditiva
 bases-matemáticas
 introdução-4
 álgebra-linear
